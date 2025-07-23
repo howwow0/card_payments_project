@@ -4,7 +4,6 @@ import com.howwow.cppcardvalidator.rest.dto.request.CardDataRequest;
 import com.howwow.cppcardvalidator.rest.dto.response.CardValidationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,15 +28,7 @@ public class CardVerificationController {
                             description = "Карта валидна/невалидна с сообщением",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = CardValidationResponse.class),
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = "{\"valid\": true, \"message\": \"Карта успешно проверена\"}"
-                                            ),
-                                            @ExampleObject(
-                                                    value = "{\"valid\": false, \"message\": \"Невалидные данные карты\"}"
-                                            )
-                                    }
+                                    schema = @Schema(implementation = CardValidationResponse.class)
                             )
                     )
             }
