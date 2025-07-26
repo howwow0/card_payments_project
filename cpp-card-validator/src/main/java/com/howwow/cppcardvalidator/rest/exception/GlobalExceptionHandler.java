@@ -7,13 +7,17 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.StringJoiner;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CardValidationResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        String[] messages = ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage).toArray(String[]::new);
-        String joiningMessage = String.join(", ", messages);
-        return ResponseEntity.ok(CardValidationResponse.failure(joiningMessage));
+        StringJoiner joiner = new StringJoiner(", ");
+        for (ObjectError error : ex.getBindingResult().getAllErrors()) {
+            joiner.add(error.getDefaultMessage());
+        }
+        return ResponseEntity.ok(CardValidationResponse.failure(joiner.toString()));
     }
 }
