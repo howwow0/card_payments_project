@@ -12,13 +12,11 @@ public class LuhnValidator implements ConstraintValidator<ValidLuhn, String> {
             return false;
         }
 
-        String digitsOnly = cardNumber.replaceAll("[^0-9]", "");
-
-        if (digitsOnly.length() < 13 || digitsOnly.length() > 19) {
+        if (!cardNumber.matches("^[0-9]{13,19}$")) {
             return false;
         }
 
-        return luhnCheck(digitsOnly);
+        return luhnCheck(cardNumber);
     }
 
     private boolean luhnCheck(String number) {
@@ -30,12 +28,10 @@ public class LuhnValidator implements ConstraintValidator<ValidLuhn, String> {
 
             if (alternate) {
                 digit *= 2;
-                if (digit > 9) {
-                    digit = (digit % 10) + 1;
-                }
+                sum += digit > 9 ? (digit % 10) + 1 : digit;
+            } else {
+                sum += digit;
             }
-
-            sum += digit;
             alternate = !alternate;
         }
 
