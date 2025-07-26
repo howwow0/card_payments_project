@@ -4,7 +4,11 @@ import com.howwow.cppcardvalidator.validation.annotation.ValidLuhn;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+import java.util.regex.Pattern;
+
 public class LuhnValidator implements ConstraintValidator<ValidLuhn, String> {
+
+    private static final Pattern CARD_PATTERN = Pattern.compile("^[0-9]{13,19}$");
 
     @Override
     public boolean isValid(String cardNumber, ConstraintValidatorContext context) {
@@ -12,7 +16,7 @@ public class LuhnValidator implements ConstraintValidator<ValidLuhn, String> {
             return false;
         }
 
-        if (!cardNumber.matches("^[0-9]{13,19}$")) {
+        if (!CARD_PATTERN.matcher(cardNumber).matches()) {
             return false;
         }
 
