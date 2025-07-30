@@ -1,6 +1,6 @@
 package com.howwow.cppauthrequest.business.impl;
 
-import com.howwow.cppauthrequest.business.PaymentService;
+import com.howwow.cppauthrequest.business.AuthorizePaymentService;
 import com.howwow.cppauthrequest.rest.dto.request.PaymentAuthorizationRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import static com.howwow.cppauthrequest.business.utils.MaskUtils.maskCardNumber;
 
 @Service
 @Slf4j
-public class PaymentServiceImpl implements PaymentService {
+public class AuthorizePaymentServiceImpl implements AuthorizePaymentService {
 
     @Override
     public UUID authorize(PaymentAuthorizationRequest paymentAuthorizationRequest) {

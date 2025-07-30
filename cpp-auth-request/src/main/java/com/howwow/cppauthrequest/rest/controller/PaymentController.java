@@ -1,6 +1,6 @@
 package com.howwow.cppauthrequest.rest.controller;
 
-import com.howwow.cppauthrequest.business.PaymentService;
+import com.howwow.cppauthrequest.business.PaymentFacadeService;
 import com.howwow.cppauthrequest.rest.dto.request.PaymentAuthorizationRequest;
 import com.howwow.cppauthrequest.rest.dto.response.PaymentAuthorizationResponse;
 import jakarta.validation.Valid;
@@ -11,18 +11,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("payment")
 @RequiredArgsConstructor
 public class PaymentController {
 
-    private final PaymentService paymentService;
+    private final PaymentFacadeService paymentFacadeService;
 
     @PostMapping("/authorize")
     public ResponseEntity<PaymentAuthorizationResponse> authorize(@RequestBody @Valid PaymentAuthorizationRequest paymentAuthorizationRequest) {
-        UUID uuidAuth = paymentService.authorize(paymentAuthorizationRequest);
-        return null;
+        return ResponseEntity.ok(paymentFacadeService.authorizePayment(paymentAuthorizationRequest));
     }
 }

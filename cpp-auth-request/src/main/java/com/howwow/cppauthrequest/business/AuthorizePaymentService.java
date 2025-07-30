@@ -4,6 +4,6 @@ import com.howwow.cppauthrequest.rest.dto.request.PaymentAuthorizationRequest;
 
 import java.util.UUID;
 
-public interface PaymentService {
+public interface AuthorizePaymentService {
     UUID authorize(PaymentAuthorizationRequest paymentAuthorizationRequest);
 }

@@ -43,7 +43,7 @@ public record PaymentAuthorizationRequest(
                 requiredMode = Schema.RequiredMode.REQUIRED)
         String cvv,
 
-        @NotBlank(message = "Идентификатор продавца обязателен для заполнения")
+        @NotNull(message = "Идентификатор продавца обязателен для заполнения")
         @Schema(description = "Идентификатор продавца",
                 example = "5ae07e55-0aea-4332-b741-96a07d1d6a6c",
                 requiredMode = Schema.RequiredMode.REQUIRED)

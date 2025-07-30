@@ -1,5 +1,6 @@
 package com.howwow.cppauthrequest.rest.dto.response;
 
+import com.howwow.cppauthrequest.persistence.enums.PaymentStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.UUID;
@@ -7,7 +8,7 @@ import java.util.UUID;
 @Schema(description = "Ответ на запрос авторизации платежа")
 public record PaymentAuthorizationResponse(
         @Schema(
-                description = "Уникальный идентификатор транзакции",
+                description = "Уникальный идентификатор платежа",
                 example = "123e4567-e89b-12d3-a456-426614174000",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
@@ -23,14 +24,14 @@ public record PaymentAuthorizationResponse(
         @Schema(
                 description = "Статус авторизации платежа",
                 example = "APPROVED",
-                allowableValues = {"APPROVED", "DECLINED"},
+                allowableValues = {"APPROVED", "REJECTED"},
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
-        String status,
+        PaymentStatus status,
 
         @Schema(
                 description = "Дополнительное сообщение о статусе",
-                example = "Payment approved successfully",
+                example = "Платеж одобрен",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         String message
