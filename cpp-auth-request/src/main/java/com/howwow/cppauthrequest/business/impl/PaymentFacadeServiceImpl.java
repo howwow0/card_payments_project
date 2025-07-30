@@ -38,8 +38,25 @@ public class PaymentFacadeServiceImpl implements PaymentFacadeService {
         UUID transactionId = UUID.randomUUID();
         PaymentAuthorizationGatewayResponse response = gatewayAdapterService.authorize(
                 paymentFacadeMapper.toPaymentAuthorizationGatewayRequest(paymentAuthorizationRequest));
-
-        return paymentFacadeMapper.toPaymentAuthorizationResponse(transactionId, response);
+        PaymentAuthorizationResponse authorizationResponse = paymentFacadeMapper.toPaymentAuthorizationResponse(transactionId, response);
+        log.info("""
+                        Платеж обработан банком - эмитентом:
+                            - Card: {}
+                            - Amount: {} {}
+                            - Merchant: {}
+                            - TransactionId: {}
+                            - BankTransactionId: {}
+                            - Status: {}
+                        """,
+                maskCardNumber(paymentAuthorizationRequest.cardNumber()),
+                paymentAuthorizationRequest.amount(),
+                paymentAuthorizationRequest.currency().getCurrencyCode(),
+                paymentAuthorizationRequest.merchantId(),
+                authorizationResponse.transactionId(),
+                authorizationResponse.bankTransactionId(),
+                authorizationResponse.status()
+        );
+        return authorizationResponse;
     }
 
 }

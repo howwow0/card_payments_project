@@ -9,7 +9,7 @@ spring:
 
 gateway:
   service:
-    url: http://bank-service:8080
+    url: http://localhost:9003
 
 springdoc:
   api-docs:
