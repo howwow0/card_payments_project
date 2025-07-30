@@ -1,7 +1,7 @@
 package com.howwow.cppauthrequest.client;
 
+import com.howwow.cppauthrequest.client.dto.request.PaymentAuthorizationGatewayRequest;
 import com.howwow.cppauthrequest.client.dto.response.PaymentAuthorizationGatewayResponse;
-import com.howwow.cppauthrequest.rest.dto.request.PaymentAuthorizationRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.PostMapping;
 )
 public interface GatewayClient {
     @PostMapping("/api/v1/bank/authorize")
-    PaymentAuthorizationGatewayResponse authorizePayment(PaymentAuthorizationRequest request);
+    PaymentAuthorizationGatewayResponse authorizePayment(PaymentAuthorizationGatewayRequest request);
 }
