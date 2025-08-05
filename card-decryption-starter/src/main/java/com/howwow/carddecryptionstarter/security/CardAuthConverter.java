@@ -8,6 +8,7 @@ import com.howwow.carddecryptionstarter.config.KeysLoader;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.AuthenticationConverter;
 import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
+@Slf4j
 public class CardAuthConverter implements AuthenticationConverter {
 
     private static final String KEY_NAME = "jwtSigning";
@@ -41,7 +43,7 @@ public class CardAuthConverter implements AuthenticationConverter {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT jwt = verifier.verify(token);
-
+            log.info(jwt.getToken());
             return new CardAuthToken(jwt, null);
 
         } catch (Exception e) {

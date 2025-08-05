@@ -1,6 +1,5 @@
 package com.howwow.carddecryptionstarter.carddecrypt;
 
-import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.howwow.carddecryptionstarter.carddecrypt.annotation.DecryptedCardData;
 import com.howwow.carddecryptionstarter.carddecrypt.dto.CardDataDto;
@@ -38,10 +37,7 @@ public class DecryptedCardDataArgumentResolver implements HandlerMethodArgumentR
                                   @NonNull NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        DecodedJWT decodedJWT = JWT.decode(auth.getCredentials().toString());
-        System.out.println("cardNumber claim: " + decodedJWT.getClaim("cardNumber").asString());
-        System.out.println("expiryDate claim: " + decodedJWT.getClaim("expiryDate").asString());
-        System.out.println("cvv claim: " + decodedJWT.getClaim("cvv").asString());
+        DecodedJWT decodedJWT = (DecodedJWT) auth.getCredentials();
         return new CardDataDto(
                 decryptionService.decrypt(decodedJWT.getClaim("cardNumber").asString()),
                 decryptionService.decrypt(decodedJWT.getClaim("expiryDate").asString()),
