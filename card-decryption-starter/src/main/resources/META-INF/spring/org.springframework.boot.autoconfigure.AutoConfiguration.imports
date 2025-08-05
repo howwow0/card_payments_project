@@ -1,2 +1,3 @@
 com.howwow.carddecryptionstarter.config.CardDecryptionAutoConfiguration
 com.howwow.carddecryptionstarter.security.SecurityConfig
+com.howwow.carddecryptionstarter.carddecrypt.WebConfig

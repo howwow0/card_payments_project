@@ -9,7 +9,7 @@
 ### 2. Настройте `application.yml`
 
 ```yaml
-encryption-keys:
+decryption-keys:
   keys:
     cardData: ${CARD_KEY_PATH:classpath:card-signing.key}
     jwtSigning: ${JWT_KEY_PATH:classpath:jwt-signing.key}

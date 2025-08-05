@@ -1,5 +1,6 @@
 package com.howwow.carddecryptionstarter.config;
 
+import com.howwow.carddecryptionstarter.carddecrypt.DecryptedCardDataArgumentResolver;
 import com.howwow.carddecryptionstarter.carddecrypt.service.CardDataDecryptionService;
 import com.howwow.carddecryptionstarter.carddecrypt.service.impl.CardDataDecryptionServiceImpl;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,4 +21,10 @@ public class CardDecryptionAutoConfiguration {
     public CardDataDecryptionService cardDataDecryptionService(KeysLoader keysLoader) {
         return new CardDataDecryptionServiceImpl(keysLoader);
     }
+
+    @Bean
+    public DecryptedCardDataArgumentResolver decryptedCardDataArgumentResolver(CardDataDecryptionService cardDataDecryptionService) {
+        return new DecryptedCardDataArgumentResolver(cardDataDecryptionService);
+    }
+
 }
