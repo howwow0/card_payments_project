@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -25,7 +26,9 @@ public class CardAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         var auth = authConverter.convert(request);
         var authenticated = authProvider.authenticate(auth);
-        SecurityContextHolder.createEmptyContext().setAuthentication(authenticated);
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authenticated);
+        SecurityContextHolder.setContext(context);
         filterChain.doFilter(request, response);
     }
 }
