@@ -39,10 +39,13 @@ public class DecryptedCardDataArgumentResolver implements HandlerMethodArgumentR
                                   WebDataBinderFactory binderFactory) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DecodedJWT decodedJWT = JWT.decode(auth.getCredentials().toString());
+        System.out.println("cardNumber claim: " + decodedJWT.getClaim("cardNumber").asString());
+        System.out.println("expiryDate claim: " + decodedJWT.getClaim("expiryDate").asString());
+        System.out.println("cvv claim: " + decodedJWT.getClaim("cvv").asString());
         return new CardDataDto(
-                decryptionService.decrypt(decodedJWT.getClaim("cardNumber").toString()),
-                decryptionService.decrypt(decodedJWT.getClaim("expiryDate").toString()),
-                decryptionService.decrypt(decodedJWT.getClaim("cvv").toString())
+                decryptionService.decrypt(decodedJWT.getClaim("cardNumber").asString()),
+                decryptionService.decrypt(decodedJWT.getClaim("expiryDate").asString()),
+                decryptionService.decrypt(decodedJWT.getClaim("cvv").asString())
         );
     }
 
