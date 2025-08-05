@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
 public class KeysLoader {
 

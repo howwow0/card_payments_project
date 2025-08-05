@@ -1,4 +1,4 @@
-package com.howwow.carddecryptionstarter.business.exception;
+package com.howwow.carddecryptionstarter.carddecrypt.exception;
 
 public class DecryptedException extends RuntimeException {
     public DecryptedException(Exception e) {

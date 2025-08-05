@@ -1,18 +1,16 @@
-package com.howwow.carddecryptionstarter.business.impl;
+package com.howwow.carddecryptionstarter.carddecrypt.service.impl;
 
-import com.howwow.carddecryptionstarter.business.CardDataDecryptionService;
-import com.howwow.carddecryptionstarter.business.exception.DecryptedException;
+import com.howwow.carddecryptionstarter.carddecrypt.exception.DecryptedException;
+import com.howwow.carddecryptionstarter.carddecrypt.service.CardDataDecryptionService;
 import com.howwow.carddecryptionstarter.config.KeysLoader;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
-@Service
 @RequiredArgsConstructor
 public class CardDataDecryptionServiceImpl implements CardDataDecryptionService {
     private static final String ENCRYPTION_ALGO = "AES/GCM/NoPadding";

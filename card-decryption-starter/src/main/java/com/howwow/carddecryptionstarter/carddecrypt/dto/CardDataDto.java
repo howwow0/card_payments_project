@@ -1,4 +1,4 @@
-package com.howwow.carddecryptionstarter.dto;
+package com.howwow.carddecryptionstarter.carddecrypt.dto;
 
 public record CardDataDto(
         String cardNumber,
