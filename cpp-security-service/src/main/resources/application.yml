@@ -7,8 +7,8 @@ jwt:
 
 encryption-keys:
   keys:
-    cardData: classpath:card-signing.key
-    jwtSigning: classpath:jwt-signing.key
+    cardData: ${CARD_KEY_PATH:classpath:card-signing.key}
+    jwtSigning: ${JWT_KEY_PATH:classpath:jwt-signing.key}
 
 server:
   port: 9010
