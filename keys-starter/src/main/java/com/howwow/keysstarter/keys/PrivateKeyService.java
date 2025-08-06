@@ -1,8 +1,8 @@
-package com.howwow.carddecryptionstarter.keys;
+package com.howwow.keysstarter.keys;
 
 
-import com.howwow.carddecryptionstarter.keys.entity.DecryptionKey;
-import com.howwow.carddecryptionstarter.keys.repository.DecryptionKeyRepository;
+import com.howwow.keysstarter.keys.entity.PrivateKey;
+import com.howwow.keysstarter.keys.repository.PrivateKeyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(transactionManager = "keyTransactionManager")
 @RequiredArgsConstructor
-public class DecryptionKeyService {
+public class PrivateKeyService {
 
-    private final DecryptionKeyRepository repository;
+    private final PrivateKeyRepository repository;
 
     public String getCardEncryptionKey() {
         return getKey("card_key");
@@ -24,7 +24,7 @@ public class DecryptionKeyService {
 
     private String getKey(String id) {
         return repository.findById(id)
-                .map(DecryptionKey::getKeyValue)
+                .map(PrivateKey::getKeyValue)
                 .orElseThrow(() -> new IllegalStateException("Ключ отсутствует: " + id));
     }
 }

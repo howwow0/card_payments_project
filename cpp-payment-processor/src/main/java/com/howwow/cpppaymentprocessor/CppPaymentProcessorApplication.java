@@ -1,13 +1,13 @@
-package com.howwow.cppsecurityservice;
+package com.howwow.cpppaymentprocessor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CppSecurityServiceApplication {
+public class CppPaymentProcessorApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CppSecurityServiceApplication.class, args);
+        SpringApplication.run(CppPaymentProcessorApplication.class, args);
     }
 
 }

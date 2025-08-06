@@ -12,7 +12,7 @@
 
 ```groovy
 dependencies {
-    implementation 'com.howwow:keys-starter:0.0.1-SNAPSHOT'
+    api project(':keys-starter')
 }
 ```
 
@@ -28,9 +28,9 @@ dependencies {
 ### Пример `application.properties`:
 
 ```properties
-card-decryption.keys.datasource.url=jdbc:h2:tcp://localhost:1521/./keysdb
-card-decryption.keys.datasource.username=sa
-card-decryption.keys.datasource.password=
+keydb.datasource.url=jdbc:h2:tcp://h2-db:9092/./keysdb
+keydb.datasource.username=sa
+keydb.datasource.password=somePassword
 ```
 
 > Убедитесь, что база доступна и содержит таблицу с ключами.
@@ -39,7 +39,7 @@ card-decryption.keys.datasource.password=
 
 ## Ожидаемая структура таблицы `keys`
 
-Таблица `keys` должна содержать 2 строки с фиксированными `key_name`:
+Таблица `private_keys` должна содержать 2 строки с фиксированными `key_name`:
 
 | key_name            | key_value           |
 |---------------------|---------------------|

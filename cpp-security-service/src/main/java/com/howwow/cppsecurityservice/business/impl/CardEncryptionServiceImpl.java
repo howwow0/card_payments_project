@@ -2,14 +2,14 @@ package com.howwow.cppsecurityservice.business.impl;
 
 import com.howwow.cppsecurityservice.business.CardEncryptionService;
 import com.howwow.cppsecurityservice.business.exception.EncryptedException;
-import com.howwow.cppsecurityservice.config.KeysLoader;
-import jakarta.annotation.PostConstruct;
+import com.howwow.keysstarter.keys.PrivateKeyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -20,17 +20,11 @@ public class CardEncryptionServiceImpl implements CardEncryptionService {
     private static final String ENCRYPTION_ALGO = "AES/GCM/NoPadding";
     private static final int GCM_TAG_LENGTH = 128; // bits
     private static final int IV_LENGTH = 12; // bytes
-    private static final String KEY_NAME = "cardData";
+    private static final String SECRET_KEY_ENCRYPTION_ALGO = "AES";
 
-    private final KeysLoader keyLoader;
     private final SecureRandom secureRandom = new SecureRandom();
-    private SecretKeySpec keySpec;
 
-    @PostConstruct
-    public void init() {
-        byte[] keyBytes = keyLoader.getKey(KEY_NAME);
-        keySpec = new SecretKeySpec(keyBytes, "AES");
-    }
+    private final PrivateKeyService privateKeyService;
 
     @Override
     public String encrypt(String plainCardData) {
@@ -41,7 +35,10 @@ public class CardEncryptionServiceImpl implements CardEncryptionService {
             Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGO);
             GCMParameterSpec parameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
 
-            cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec);
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(
+                            privateKeyService.getCardEncryptionKey().getBytes(StandardCharsets.UTF_8),
+                            SECRET_KEY_ENCRYPTION_ALGO),
+                    parameterSpec);
 
             byte[] encrypted = cipher.doFinal(plainCardData.getBytes());
 

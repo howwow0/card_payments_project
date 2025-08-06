@@ -1,4 +1,4 @@
-package com.howwow.carddecryptionstarter.keys.entity;
+package com.howwow.keysstarter.keys.entity;
 
 
 import jakarta.persistence.Column;
@@ -11,16 +11,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "encryption_keys")
+@Table(name = "private_keys")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DecryptionKey {
+public class PrivateKey {
     @Id
+    @Column(name = "key_name")
     private String id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "key_value")
     private String keyValue;
 
 }

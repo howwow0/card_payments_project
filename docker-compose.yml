@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  h2-db:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: h2-keys-db
+    ports:
+      - "9092:9092"    # TCP сервер H2
+      - "81:81"    # Веб-консоль H2
+    environment:
+      H2_USER: sa
+      H2_PASSWORD: n4D#xQ8vTpZ3
+      H2_TCP_ALLOW_OTHERS: "true"
+    networks:
+      - backend-network
+
+  cpp-security-service:
+    build:
+      context: .
+      dockerfile: cpp-security-service/Dockerfile
+    container_name: cpp-security-service
+    ports:
+      - "9010:9010"
+    depends_on:
+      - h2-db
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge

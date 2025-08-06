@@ -1,7 +1,7 @@
 package com.howwow.carddecryptionstarter.carddecrypt.service;
 
 import com.howwow.carddecryptionstarter.carddecrypt.exception.DecryptedException;
-import com.howwow.carddecryptionstarter.keys.DecryptionKeyService;
+import com.howwow.keysstarter.keys.PrivateKeyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class CardDataDecryptionService {
     private static final int IV_LENGTH = 12; // bytes
     private static final String SECRET_KEY_DECRYPTION_ALGO = "AES";
 
-    private final DecryptionKeyService decryptionKeyService;
+    private final PrivateKeyService privateKeyService;
 
     public String decrypt(String encryptedBase64) {
         try {
@@ -34,7 +34,7 @@ public class CardDataDecryptionService {
             Cipher cipher = Cipher.getInstance(DECRYPTION_ALGO);
             GCMParameterSpec gcmSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
             cipher.init(Cipher.DECRYPT_MODE,
-                    new SecretKeySpec(decryptionKeyService
+                    new SecretKeySpec(privateKeyService
                             .getCardEncryptionKey()
                             .getBytes(StandardCharsets.UTF_8), SECRET_KEY_DECRYPTION_ALGO),
                     gcmSpec);
