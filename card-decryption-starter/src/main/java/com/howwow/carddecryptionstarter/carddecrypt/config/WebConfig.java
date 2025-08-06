@@ -1,13 +1,14 @@
-package com.howwow.carddecryptionstarter.carddecrypt;
+package com.howwow.carddecryptionstarter.carddecrypt.config;
 
+import com.howwow.carddecryptionstarter.carddecrypt.DecryptedCardDataArgumentResolver;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-@Configuration
+@Component
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 

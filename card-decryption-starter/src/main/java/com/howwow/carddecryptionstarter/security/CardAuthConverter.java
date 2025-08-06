@@ -4,29 +4,21 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.howwow.carddecryptionstarter.config.KeysLoader;
-import jakarta.annotation.PostConstruct;
+import com.howwow.carddecryptionstarter.keys.DecryptionKeyService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationConverter;
+import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
+@Component
 public class CardAuthConverter implements AuthenticationConverter {
 
-    private static final String KEY_NAME = "jwtSigning";
-    private final KeysLoader keyLoader;
-    private String secretKey;
-
-    @PostConstruct
-    public void init() {
-        byte[] keyBytes = keyLoader.getKey(KEY_NAME);
-        secretKey = new String(keyBytes, StandardCharsets.UTF_8);
-    }
+    private final DecryptionKeyService decryptionKeyService;
 
     @Override
     public Authentication convert(HttpServletRequest request) {
@@ -38,7 +30,7 @@ public class CardAuthConverter implements AuthenticationConverter {
         String token = authHeader.substring("Bearer ".length());
 
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secretKey);
+            Algorithm algorithm = Algorithm.HMAC256(decryptionKeyService.getJwtSigningKey());
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT jwt = verifier.verify(token);
             return new CardAuthToken(jwt, null);

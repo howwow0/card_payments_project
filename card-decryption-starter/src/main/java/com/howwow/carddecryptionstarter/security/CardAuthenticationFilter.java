@@ -10,11 +10,13 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationConverter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @RequiredArgsConstructor
+@Component
 public class CardAuthenticationFilter extends OncePerRequestFilter {
 
     private final AuthenticationConverter authConverter;

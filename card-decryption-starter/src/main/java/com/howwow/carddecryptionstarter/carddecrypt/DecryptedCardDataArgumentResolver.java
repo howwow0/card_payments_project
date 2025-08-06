@@ -1,14 +1,14 @@
 package com.howwow.carddecryptionstarter.carddecrypt;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.howwow.carddecryptionstarter.carddecrypt.annotation.DecryptedCardData;
-import com.howwow.carddecryptionstarter.carddecrypt.dto.CardDataDto;
+import com.howwow.carddecryptionstarter.carddecrypt.dto.DecryptedCardData;
 import com.howwow.carddecryptionstarter.carddecrypt.service.CardDataDecryptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -19,14 +19,15 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * Данные вытаскиваются из SpringSecurity JWT и расшифровываются сервисом CardDataDecryptionService.
  */
 @RequiredArgsConstructor
+@Component
 public class DecryptedCardDataArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final CardDataDecryptionService decryptionService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(DecryptedCardData.class)
-                && parameter.getParameterType().equals(CardDataDto.class);
+        return parameter.hasParameterAnnotation(com.howwow.carddecryptionstarter.carddecrypt.annotation.DecryptedCardData.class)
+                && parameter.getParameterType().equals(DecryptedCardData.class);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class DecryptedCardDataArgumentResolver implements HandlerMethodArgumentR
                                   WebDataBinderFactory binderFactory) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DecodedJWT decodedJWT = (DecodedJWT) auth.getCredentials();
-        return new CardDataDto(
+        return new DecryptedCardData(
                 decryptionService.decrypt(decodedJWT.getClaim("cardNumber").asString()),
                 decryptionService.decrypt(decodedJWT.getClaim("expiryDate").asString()),
                 decryptionService.decrypt(decodedJWT.getClaim("cvv").asString())

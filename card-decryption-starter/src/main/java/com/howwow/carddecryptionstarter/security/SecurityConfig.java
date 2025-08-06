@@ -1,8 +1,8 @@
 package com.howwow.carddecryptionstarter.security;
 
-import com.howwow.carddecryptionstarter.config.KeysLoader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -11,9 +11,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
+@ComponentScan(basePackages = "com.howwow.carddecryptionstarter.security")
 public class SecurityConfig {
-
-    private final KeysLoader keysLoader;
+    private final CardAuthenticationFilter cardAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -23,20 +23,10 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
-                        new CardAuthenticationFilter(cardAuthConverter(), cardAuthProvider()),
+                        cardAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
                 );
 
         return http.build();
-    }
-
-    @Bean
-    public CardAuthConverter cardAuthConverter() {
-        return new CardAuthConverter(keysLoader);
-    }
-
-    @Bean
-    public CardAuthenticationProvider cardAuthProvider() {
-        return new CardAuthenticationProvider();
     }
 }
