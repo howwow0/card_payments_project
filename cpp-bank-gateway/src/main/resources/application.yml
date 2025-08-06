@@ -1,0 +1,22 @@
+server:
+  port: 9003
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: bank-gateway-service
+
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+logging:
+  level:
+    org.springframework: INFO
+    com.howwow: INFO
