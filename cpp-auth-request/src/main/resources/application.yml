@@ -1,0 +1,25 @@
+server:
+  port: 9002
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: auth-request-service
+
+gateway:
+  service:
+    url: http://localhost:9003
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+logging:
+  level:
+    org.springframework: INFO
+    com.howwow: INFO
