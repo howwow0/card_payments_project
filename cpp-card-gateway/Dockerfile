@@ -2,9 +2,9 @@ FROM gradle:8.7-jdk21 AS builder
 LABEL authors="HowPC"
 WORKDIR /app
 
-COPY build.gradle .
-COPY cpp-card-gateway/build.gradle cpp-card-gateway/
-COPY cpp-card-gateway/src cpp-card-gateway/src/
+COPY settings.gradle build.gradle ./
+COPY cpp-card-gateway/build.gradle ./cpp-card-gateway/build.gradle
+COPY cpp-card-gateway/src ./cpp-card-gateway/src
 
 RUN gradle :cpp-card-gateway:build --no-daemon
 

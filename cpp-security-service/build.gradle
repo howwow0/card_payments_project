@@ -27,12 +27,10 @@ repositories {
 dependencies {
     implementation project(':keys-starter')
     implementation 'com.auth0:java-jwt:4.5.0'
-    implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
-    implementation 'org.apache.commons:commons-lang3:3.18.0'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'// Для устранения CVE
+    implementation 'org.apache.commons:commons-lang3:3.18.0'// Для устранения CVE
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

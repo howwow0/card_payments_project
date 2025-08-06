@@ -4,6 +4,7 @@ package com.howwow.keysstarter.keys;
 import com.howwow.keysstarter.keys.entity.PrivateKey;
 import com.howwow.keysstarter.keys.repository.PrivateKeyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,14 +13,20 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PrivateKeyService {
 
+    @Value("${keys-name.card}")
+    private String cardName;
+
+    @Value("${keys-name.jwt}")
+    private String jwtKeyName;
+
     private final PrivateKeyRepository repository;
 
     public String getCardEncryptionKey() {
-        return getKey("card_key");
+        return getKey(cardName);
     }
 
     public String getJwtSigningKey() {
-        return getKey("jwt_signing_key");
+        return getKey(jwtKeyName);
     }
 
     private String getKey(String id) {

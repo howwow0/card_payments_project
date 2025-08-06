@@ -14,7 +14,7 @@ spring:
         webflux:
           routes:
             - id: auth-request
-              uri: ${GATEWAY_ROUTE_URI:http://localhost:9001}
+              uri: ${AUTH_REQUEST_ROUTE_URI:http://localhost:9001}
               predicates:
                 - Path=/api/v1/payment/authorize
               filters:

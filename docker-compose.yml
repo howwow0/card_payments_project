@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   h2-db:
     build:
@@ -25,6 +23,38 @@ services:
       - "9010:9010"
     depends_on:
       - h2-db
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+    networks:
+      - backend-network
+
+  cpp-card-gateway:
+    build:
+      context: .
+      dockerfile: cpp-card-gateway/Dockerfile
+    container_name: cpp-card-gateway
+    ports:
+      - "9000:9000"
+    depends_on:
+      - h2-db
+    env_file:
+      - cpp-card-gateway/.env
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+    networks:
+      - backend-network
+
+  cpp-auth-request:
+    build:
+      context: .
+      dockerfile: cpp-auth-request/Dockerfile
+    container_name: cpp-auth-request
+    ports:
+      - "9001:9001"
+    depends_on:
+      - h2-db
+    env_file:
+      - cpp-auth-request/.env
     environment:
       SPRING_PROFILES_ACTIVE: default
     networks:

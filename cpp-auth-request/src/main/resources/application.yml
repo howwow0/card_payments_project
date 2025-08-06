@@ -1,5 +1,5 @@
 server:
-  port: 9002
+  port: 9001
   servlet:
     context-path: /api/v1
 
@@ -7,9 +7,9 @@ spring:
   application:
     name: auth-request-service
 
-gateway:
+bank-gateway:
   service:
-    url: http://localhost:9003
+    url: ${BANK_GATEWAY_SERVICE_URL:http://localhost:9003}
 
 springdoc:
   api-docs:
@@ -18,6 +18,12 @@ springdoc:
     path: /swagger-ui.html
     tags-sorter: alpha
     operations-sorter: method
+
+keydb:
+  datasource:
+    url: jdbc:h2:tcp://h2-db:9092/./keysdb
+    username: sa
+    password: n4D#xQ8vTpZ3
 
 logging:
   level:

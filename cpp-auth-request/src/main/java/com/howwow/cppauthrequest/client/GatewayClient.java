@@ -7,8 +7,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(
-        name = "gateway-service",
-        url = "${gateway.service.url}",
+        name = "bank-gateway-service",
+        url = "${bank-gateway.service.url}",
         configuration = GatewayFeignClientConfig.class
 )
 public interface GatewayClient {

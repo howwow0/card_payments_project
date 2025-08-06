@@ -9,7 +9,7 @@
 
 ```
 SECURITY_SERVICE_URL: http://security-service:9010
-GATEWAY_ROUTE_URI: http://payment-auth-service:9001
+AUTH-REQUEST_ROUTE_URI: http://payment-auth-service:9001
 ```
 
 ---

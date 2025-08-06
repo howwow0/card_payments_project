@@ -31,6 +31,15 @@ dependencies {
 keydb.datasource.url=jdbc:h2:tcp://h2-db:9092/./keysdb
 keydb.datasource.username=sa
 keydb.datasource.password=somePassword
+
+```
+
+#### В properties также указаны названия ключей соответствующие ID в H2 БД.
+
+``` properties
+keys-name:
+  card: card_key
+  jwt: jwt_signing_key
 ```
 
 > Убедитесь, что база доступна и содержит таблицу с ключами.

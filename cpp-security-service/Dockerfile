@@ -1,4 +1,5 @@
 FROM gradle:8.7-jdk21 AS builder
+LABEL authors="HowPC"
 WORKDIR /app
 
 COPY settings.gradle build.gradle ./
