@@ -118,6 +118,32 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  cpp-notification-service:
+    build:
+      context: .
+      dockerfile: cpp-notification-service/Dockerfile
+    container_name: cpp-notification-service
+    env_file:
+      - .env
+    ports:
+      - "9030:9030"
+    depends_on:
+      - cpp-notification-database
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+    networks:
+      - backend-network
+  kafka:
+    image: bitnami/kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    networks:
+      - backend-network
 networks:
   backend-network:
     driver: bridge

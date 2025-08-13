@@ -8,5 +8,6 @@ include(
         ':cpp-payment-processor',
         ':cpp-security-service',
         ':cpp-keys-starter',
-        ':cpp-logging-service'
+        ':cpp-logging-service',
+        ':cpp-notification-service'
 )
