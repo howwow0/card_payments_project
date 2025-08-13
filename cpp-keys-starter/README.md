@@ -1,4 +1,4 @@
-# Keys Starter
+# CPP Keys Starter
 
 Стартер для модуля выдачи JWT токенов и стартера Card Decryption Starter.
 
