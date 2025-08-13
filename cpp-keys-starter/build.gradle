@@ -35,10 +35,3 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-// Отключение Kotlin задач
-tasks.configureEach { task ->
-    if (task.name.toLowerCase().contains('kotlin')) {
-        task.enabled = false
-    }
-}

@@ -60,6 +60,66 @@ services:
     networks:
       - backend-network
 
+  cpp-logging-service:
+    build:
+      context: .
+      dockerfile: cpp-logging-service/Dockerfile
+    container_name: cpp-logging-service
+    env_file:
+      - .env
+    ports:
+      - "9020:9020"
+    depends_on:
+      - cpp-logging-database
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+    networks:
+      - backend-network
+
+  cpp-logging-liquibase:
+    image: liquibase/liquibase:4.32.0
+    depends_on:
+      cpp-logging-database:
+        condition: service_healthy
+    environment:
+      LIQUIBASE_COMMAND_URL: ${CPP_LOGGING_SERVICE_DATASOURCE_URL}
+      LIQUIBASE_COMMAND_USERNAME: ${CPP_LOGGING_SERVICE_DATASOURCE_USERNAME}
+      LIQUIBASE_COMMAND_PASSWORD: ${CPP_LOGGING_SERVICE_DATASOURCE_PASSWORD}
+    env_file:
+      - .env
+    volumes:
+      - ./cpp-logging-service/src/main/resources/db/changelog:/liquibase/changelog
+    command:
+      - --searchPath=/liquibase/changelog
+      - --changelog-file=master.xml
+      - --driver=org.postgresql.Driver
+      - update
+    networks:
+      - backend-network
+    restart: "no"
+
+  cpp-logging-database:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${CPP_LOGGING_SERVICE_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${CPP_LOGGING_SERVICE_DATASOURCE_PASSWORD}
+      POSTGRES_DB: cpp_logging_db
+      POSTGRES_MULTIPLE_DATABASES: cpp_logging_db
+    env_file:
+      - .env
+    volumes:
+      - log_data:/var/lib/postgresql/data
+    ports:
+      - "5440:5432"
+    networks:
+      - backend-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${CPP_LOGGING_SERVICE_DATASOURCE_USERNAME} -d cpp_logging_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 networks:
   backend-network:
     driver: bridge
+volumes:
+  log_data:

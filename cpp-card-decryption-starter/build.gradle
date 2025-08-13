@@ -11,8 +11,6 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
-    withSourcesJar()
-    withJavadocJar()
 }
 
 repositories {
@@ -45,11 +43,4 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-// Отключение Kotlin задач
-tasks.configureEach { task ->
-    if (task.name.toLowerCase().contains('kotlin')) {
-        task.enabled = false
-    }
 }

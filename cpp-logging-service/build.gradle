@@ -14,19 +14,17 @@ java {
     }
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation project(':cpp-card-decryption-starter')
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("org.liquibase:liquibase-core:4.32.0")
+    implementation("org.postgresql:postgresql:42.7.3")
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
     implementation 'org.apache.commons:commons-lang3:3.18.0'// Для устранения CVE
     compileOnly 'org.projectlombok:lombok'
@@ -37,4 +35,8 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+task prepareKotlinBuildScriptModel {
+
 }

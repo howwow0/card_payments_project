@@ -1,11 +1,12 @@
 rootProject.name = 'card-payments'
 
 include(
-        ':card-decryption-starter',
+        ':cpp-card-decryption-starter',
         ':cpp-auth-request',
         ':cpp-bank-gateway',
         ':cpp-card-gateway',
         ':cpp-payment-processor',
         ':cpp-security-service',
-        ':cpp-keys-starter'
+        ':cpp-keys-starter',
+        ':cpp-logging-service'
 )
