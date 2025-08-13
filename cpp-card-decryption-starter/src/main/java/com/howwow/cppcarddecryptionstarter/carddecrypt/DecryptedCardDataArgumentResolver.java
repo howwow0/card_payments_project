@@ -1,8 +1,8 @@
-package com.howwow.carddecryptionstarter.carddecrypt;
+package com.howwow.cppcarddecryptionstarter.carddecrypt;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.howwow.carddecryptionstarter.carddecrypt.dto.DecryptedCardData;
-import com.howwow.carddecryptionstarter.carddecrypt.service.CardDataDecryptionService;
+import com.howwow.cppcarddecryptionstarter.carddecrypt.dto.DecryptedCardData;
+import com.howwow.cppcarddecryptionstarter.carddecrypt.service.CardDataDecryptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.NonNull;
@@ -26,7 +26,7 @@ public class DecryptedCardDataArgumentResolver implements HandlerMethodArgumentR
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(com.howwow.carddecryptionstarter.carddecrypt.annotation.DecryptedCardData.class)
+        return parameter.hasParameterAnnotation(com.howwow.cppcarddecryptionstarter.carddecrypt.annotation.DecryptedCardData.class)
                 && parameter.getParameterType().equals(DecryptedCardData.class);
     }
 

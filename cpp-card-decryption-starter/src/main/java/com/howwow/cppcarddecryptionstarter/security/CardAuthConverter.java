@@ -1,4 +1,4 @@
-package com.howwow.carddecryptionstarter.security;
+package com.howwow.cppcarddecryptionstarter.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

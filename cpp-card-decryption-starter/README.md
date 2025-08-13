@@ -1,4 +1,4 @@
-# Card Decryption Starter
+# CPP Card Decryption Starter
 
 Стартер для автоматической расшифровки данных карты из JWT и предоставления их в контроллерах через аннотацию
 `@DecryptedCardData`.

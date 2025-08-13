@@ -1,6 +1,6 @@
-package com.howwow.carddecryptionstarter.carddecrypt.service;
+package com.howwow.cppcarddecryptionstarter.carddecrypt.service;
 
-import com.howwow.carddecryptionstarter.carddecrypt.exception.DecryptedException;
+import com.howwow.cppcarddecryptionstarter.carddecrypt.exception.DecryptedException;
 import com.howwow.cppkeysstarter.keys.PrivateKeyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

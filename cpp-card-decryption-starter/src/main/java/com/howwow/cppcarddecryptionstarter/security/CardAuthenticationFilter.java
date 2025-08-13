@@ -1,4 +1,4 @@
-package com.howwow.carddecryptionstarter.security;
+package com.howwow.cppcarddecryptionstarter.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

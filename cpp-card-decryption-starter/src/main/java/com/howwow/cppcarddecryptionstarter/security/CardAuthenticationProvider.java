@@ -1,4 +1,4 @@
-package com.howwow.carddecryptionstarter.security;
+package com.howwow.cppcarddecryptionstarter.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;

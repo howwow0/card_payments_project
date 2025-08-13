@@ -1,4 +1,4 @@
-package com.howwow.carddecryptionstarter.carddecrypt.annotation;
+package com.howwow.cppcarddecryptionstarter.carddecrypt.annotation;
 
 import java.lang.annotation.*;
 

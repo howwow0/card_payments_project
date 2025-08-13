@@ -1,4 +1,4 @@
-package com.howwow.carddecryptionstarter.security;
+package com.howwow.cppcarddecryptionstarter.security;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.Getter;

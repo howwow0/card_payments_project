@@ -1,4 +1,4 @@
-package com.howwow.carddecryptionstarter.security;
+package com.howwow.cppcarddecryptionstarter.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
-@ComponentScan(basePackages = "com.howwow.carddecryptionstarter.security")
+@ComponentScan(basePackages = "com.howwow.cppcarddecryptionstarter.security")
 public class SecurityConfig {
     private final CardAuthenticationFilter cardAuthenticationFilter;
 

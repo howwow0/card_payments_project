@@ -1,6 +1,6 @@
-package com.howwow.carddecryptionstarter.carddecrypt.config;
+package com.howwow.cppcarddecryptionstarter.carddecrypt.config;
 
-import com.howwow.carddecryptionstarter.carddecrypt.DecryptedCardDataArgumentResolver;
+import com.howwow.cppcarddecryptionstarter.carddecrypt.DecryptedCardDataArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
