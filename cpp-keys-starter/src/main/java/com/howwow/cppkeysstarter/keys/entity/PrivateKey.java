@@ -1,4 +1,4 @@
-package com.howwow.keysstarter.keys.entity;
+package com.howwow.cppkeysstarter.keys.entity;
 
 
 import jakarta.persistence.Column;

@@ -1,4 +1,4 @@
-package com.howwow.keysstarter.keys.config;
+package com.howwow.cppkeysstarter.keys.config;
 
 import lombok.Getter;
 import lombok.Setter;

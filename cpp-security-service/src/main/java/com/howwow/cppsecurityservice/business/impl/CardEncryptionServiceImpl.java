@@ -2,7 +2,7 @@ package com.howwow.cppsecurityservice.business.impl;
 
 import com.howwow.cppsecurityservice.business.CardEncryptionService;
 import com.howwow.cppsecurityservice.business.exception.EncryptedException;
-import com.howwow.keysstarter.keys.PrivateKeyService;
+import com.howwow.cppkeysstarter.keys.PrivateKeyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

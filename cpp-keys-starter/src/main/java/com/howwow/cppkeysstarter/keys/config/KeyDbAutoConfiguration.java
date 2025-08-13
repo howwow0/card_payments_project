@@ -1,4 +1,4 @@
-package com.howwow.keysstarter.keys.config;
+package com.howwow.cppkeysstarter.keys.config;
 
 
 import jakarta.persistence.EntityManagerFactory;
@@ -22,11 +22,11 @@ import java.util.Map;
 @Configuration
 @EnableConfigurationProperties(KeyDbProperties.class)
 @EnableJpaRepositories(
-        basePackages = "com.howwow.keysstarter.keys",
+        basePackages = "com.howwow.cppkeysstarter.keys",
         entityManagerFactoryRef = "keyEntityManagerFactory",
         transactionManagerRef = "keyTransactionManager"
 )
-@ComponentScan(basePackages = "com.howwow.keysstarter.keys")
+@ComponentScan(basePackages = "com.howwow.cppkeysstarter.keys")
 public class KeyDbAutoConfiguration {
 
     @Bean(name = "keyDataSource")

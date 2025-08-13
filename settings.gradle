@@ -7,5 +7,5 @@ include(
         ':cpp-card-gateway',
         ':cpp-payment-processor',
         ':cpp-security-service',
-        ':keys-starter'
+        ':cpp-keys-starter'
 )

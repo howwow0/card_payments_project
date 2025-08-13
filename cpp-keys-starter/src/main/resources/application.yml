@@ -1,6 +1,6 @@
 spring:
   application:
-    name: keys-starter
+    name: cpp-keys-starter
 
 keys-name:
   card: card_key

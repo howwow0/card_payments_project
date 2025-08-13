@@ -1,8 +1,8 @@
-package com.howwow.keysstarter.keys;
+package com.howwow.cppkeysstarter.keys;
 
 
-import com.howwow.keysstarter.keys.entity.PrivateKey;
-import com.howwow.keysstarter.keys.repository.PrivateKeyRepository;
+import com.howwow.cppkeysstarter.keys.entity.PrivateKey;
+import com.howwow.cppkeysstarter.keys.repository.PrivateKeyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
