@@ -1,7 +1,3 @@
 spring:
   application:
     name: cpp-keys-starter
-
-keys-name:
-  card: card_key
-  jwt: jwt_signing_key

@@ -3,7 +3,7 @@ LABEL authors="HowPC"
 WORKDIR /app
 
 COPY settings.gradle build.gradle ./
-COPY keys-starter ./keys-starter
+COPY cpp-keys-starter ./cpp-keys-starter
 COPY cpp-security-service/build.gradle ./cpp-security-service/build.gradle
 COPY cpp-security-service/src ./cpp-security-service/src
 

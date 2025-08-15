@@ -1,19 +1,18 @@
 package com.howwow.cppkeysstarter.keys.config;
 
-
+import com.howwow.cppkeysstarter.keys.PrivateKeyService;
+import com.howwow.cppkeysstarter.keys.repository.PrivateKeyRepository;
 import jakarta.persistence.EntityManagerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -21,16 +20,16 @@ import java.util.Map;
 
 @Configuration
 @EnableConfigurationProperties(KeyDbProperties.class)
+@EntityScan(basePackages = "com.howwow.cppkeysstarter.keys.entity")
 @EnableJpaRepositories(
-        basePackages = "com.howwow.cppkeysstarter.keys",
+        basePackages = "com.howwow.cppkeysstarter.keys.repository",
         entityManagerFactoryRef = "keyEntityManagerFactory",
         transactionManagerRef = "keyTransactionManager"
 )
-@ComponentScan(basePackages = "com.howwow.cppkeysstarter.keys")
 public class KeyDbAutoConfiguration {
 
-    @Bean(name = "keyDataSource")
-    @ConditionalOnMissingBean(name = "keyDataSource")
+    @Bean
+    @ConditionalOnMissingBean
     public DataSource keyDataSource(KeyDbProperties properties) {
         return DataSourceBuilder.create()
                 .driverClassName("org.h2.Driver")
@@ -40,13 +39,11 @@ public class KeyDbAutoConfiguration {
                 .build();
     }
 
-    @Bean(name = "keyEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean keyEntityManagerFactory(
-            @Qualifier("keyDataSource") DataSource dataSource) {
+    @Bean
+    public LocalContainerEntityManagerFactoryBean keyEntityManagerFactory(DataSource keyDataSource) {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setDataSource(dataSource);
-        emf.setPackagesToScan("com.howwow.keysstarter.keys");
-        emf.setPersistenceUnitName("keydb");
+        emf.setDataSource(keyDataSource);
+        emf.setPackagesToScan("com.howwow.cppkeysstarter.keys.entity");
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Map<String, Object> jpaProperties = new HashMap<>();
@@ -57,9 +54,21 @@ public class KeyDbAutoConfiguration {
         return emf;
     }
 
-    @Bean(name = "keyTransactionManager")
-    public PlatformTransactionManager keyTransactionManager(
-            @Qualifier("keyEntityManagerFactory") EntityManagerFactory emf) {
-        return new JpaTransactionManager(emf);
+    @Bean
+    public JpaTransactionManager keyTransactionManager(EntityManagerFactory keyEntityManagerFactory) {
+        return new JpaTransactionManager(keyEntityManagerFactory);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public PrivateKeyService privateKeyService(
+            PrivateKeyRepository repository,
+            KeyDbProperties properties
+    ) {
+        return new PrivateKeyService(
+                properties.getCardName(),
+                properties.getJwtName(),
+                repository
+        );
     }
 }

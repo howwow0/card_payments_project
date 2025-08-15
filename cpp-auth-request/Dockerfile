@@ -3,8 +3,8 @@ LABEL authors="HowPC"
 WORKDIR /app
 
 COPY settings.gradle build.gradle ./
-COPY keys-starter ./keys-starter
-COPY card-decryption-starter ./card-decryption-starter
+COPY cpp-keys-starter ./cpp-keys-starter
+COPY cpp-card-decryption-starter ./cpp-card-decryption-starter
 COPY cpp-auth-request/build.gradle ./cpp-auth-request/build.gradle
 COPY cpp-auth-request/src ./cpp-auth-request/src
 

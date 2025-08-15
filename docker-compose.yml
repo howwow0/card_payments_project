@@ -11,6 +11,12 @@ services:
       H2_USER: sa
       H2_PASSWORD: n4D#xQ8vTpZ3
       H2_TCP_ALLOW_OTHERS: "true"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:81" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     networks:
       - backend-network
 
@@ -22,7 +28,8 @@ services:
     ports:
       - "9010:9010"
     depends_on:
-      - h2-db
+      h2-db:
+        condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: default
     networks:
@@ -36,9 +43,10 @@ services:
     ports:
       - "9000:9000"
     depends_on:
-      - h2-db
+      h2-db:
+        condition: service_healthy
     env_file:
-      - cpp-card-gateway/.env
+      - .env
     environment:
       SPRING_PROFILES_ACTIVE: default
     networks:
@@ -52,9 +60,10 @@ services:
     ports:
       - "9001:9001"
     depends_on:
-      - h2-db
+      h2-db:
+        condition: service_healthy
     env_file:
-      - cpp-auth-request/.env
+      - .env
     environment:
       SPRING_PROFILES_ACTIVE: default
     networks:
@@ -127,8 +136,6 @@ services:
       - .env
     ports:
       - "9030:9030"
-    depends_on:
-      - cpp-notification-database
     environment:
       SPRING_PROFILES_ACTIVE: default
     networks:
@@ -136,7 +143,7 @@ services:
   kafka:
     image: bitnami/kafka:latest
     ports:
-      - "9092:9092"
+      - "9093:9093"
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_LISTENERS=PLAINTEXT://:9092

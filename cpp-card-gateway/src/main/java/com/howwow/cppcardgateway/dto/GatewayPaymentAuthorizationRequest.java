@@ -10,6 +10,7 @@ public record GatewayPaymentAuthorizationRequest(
         String cardNumber,
         String expiryDate,
         String cvv,
-        UUID merchantId
+        UUID merchantId,
+        String email
 ) {
 }

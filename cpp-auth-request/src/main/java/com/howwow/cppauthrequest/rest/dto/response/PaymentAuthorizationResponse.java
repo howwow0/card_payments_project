@@ -24,7 +24,6 @@ public record PaymentAuthorizationResponse(
         @Schema(
                 description = "Статус авторизации платежа",
                 example = "APPROVED",
-                allowableValues = {"APPROVED", "REJECTED"},
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         PaymentStatus status,

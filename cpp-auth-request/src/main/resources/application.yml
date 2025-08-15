@@ -6,10 +6,24 @@ server:
 spring:
   application:
     name: auth-request-service
+  task:
+    execution:
+      pool:
+        core-size: 3
+        max-size: 10
+        queue-capacity: 1000
 
 bank-gateway:
   service:
-    url: ${BANK_GATEWAY_SERVICE_URL:http://localhost:9003}
+    url: ${BANK_GATEWAY_SERVICE_URL:http://localhost:9002}
+
+payment-processor:
+  service:
+    url: ${PAYMENT_PROCESSOR_SERVICE_URL:http://localhost:9003}
+
+logging-service:
+  service:
+    url: ${LOGGING_SERVICE_URL:http://localhost:9020}
 
 springdoc:
   api-docs:
@@ -24,7 +38,8 @@ keydb:
     url: jdbc:h2:tcp://h2-db:9092/./keysdb
     username: sa
     password: n4D#xQ8vTpZ3
-
+    card-name: card_key
+    jwt-name: jwt_signing_key
 logging:
   level:
     org.springframework: INFO

@@ -11,4 +11,7 @@ public class KeyDbProperties {
     private String url;
     private String username;
     private String password;
+    private String cardName;
+    private String jwtName;
+
 }

@@ -73,7 +73,8 @@ public class JwtInjectionGatewayFilterFactory extends AbstractGatewayFilterFacto
                                     PaymentAuthorizationRequest newRequest = new PaymentAuthorizationRequest(
                                             request.amount(),
                                             request.currency(),
-                                            request.merchantId()
+                                            request.merchantId(),
+                                            request.email()
                                     );
 
                                     byte[] newBodyBytes;

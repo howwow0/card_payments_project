@@ -4,28 +4,25 @@ package com.howwow.cppkeysstarter.keys;
 import com.howwow.cppkeysstarter.keys.entity.PrivateKey;
 import com.howwow.cppkeysstarter.keys.repository.PrivateKeyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
-@Service
-@Transactional(transactionManager = "keyTransactionManager")
 @RequiredArgsConstructor
+@Slf4j
 public class PrivateKeyService {
 
-    @Value("${keys-name.card}")
-    private String cardName;
+    private final String cardName;
 
-    @Value("${keys-name.jwt}")
-    private String jwtKeyName;
+    private final String jwtKeyName;
 
     private final PrivateKeyRepository repository;
 
     public String getCardEncryptionKey() {
+        log.info("getCardEncryptionKey" + cardName);
         return getKey(cardName);
     }
 
     public String getJwtSigningKey() {
+        log.info("getJwtSigningKey" + jwtKeyName);
         return getKey(jwtKeyName);
     }
 

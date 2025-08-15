@@ -1,4 +1,4 @@
-rootProject.name = 'card-payments'
+rootProject.name = 'card-payments-project'
 
 include(
         ':cpp-card-decryption-starter',

@@ -7,6 +7,7 @@ import java.util.UUID;
 public record PaymentAuthorizationRequest(
         BigDecimal amount,
         Currency currency,
-        UUID merchantId
+        UUID merchantId,
+        String email
 ) {
 }

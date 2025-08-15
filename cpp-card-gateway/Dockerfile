@@ -13,5 +13,5 @@ WORKDIR /app
 
 COPY --from=builder /app/cpp-card-gateway/build/libs/cpp-card-gateway-*.jar app.jar
 
-EXPOSE 9002
+EXPOSE 9000
 ENTRYPOINT ["java", "-jar", "app.jar"]
