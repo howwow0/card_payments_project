@@ -1,0 +1,46 @@
+server:
+  port: ${CPP_PAYMENT_ORCHESTRATOR_SERVICE_PORT:9001}
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: cpp-payment-orchestrator-service
+  task:
+    execution:
+      pool:
+        core-size: 3
+        max-size: 10
+        queue-capacity: 1000
+
+bank-gateway:
+  service:
+    url: ${BANK_GATEWAY_SERVICE_URL:http://localhost:9002}
+
+payment-processor:
+  service:
+    url: ${PAYMENT_PROCESSOR_SERVICE_URL:http://localhost:9003}
+
+logging-service:
+  service:
+    url: ${LOGGING_SERVICE_URL:http://localhost:9020}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+keydb:
+  datasource:
+    url: jdbc:h2:tcp://h2-db:9092/./keysdb
+    username: sa
+    password: n4D#xQ8vTpZ3
+    card-name: card_key
+    jwt-name: jwt_signing_key
+logging:
+  level:
+    org.springframework: INFO
+    com.howwow: INFO

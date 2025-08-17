@@ -21,7 +21,7 @@ spring:
             enable: true
 
 server:
-  port: ${NOTIFICATION_SERVICE_PORT:9030}
+  port: ${CPP_NOTIFICATION_SERVICE_PORT:9030}
   servlet:
     context-path: /api/v1
 

@@ -18,7 +18,7 @@ spring:
     enabled: false
 
 server:
-  port: ${LOGGING_SERVICE_PORT:9020}
+  port: ${CPP_LOGGING_SERVICE_PORT:9020}
   servlet:
     context-path: /api/v1
 
