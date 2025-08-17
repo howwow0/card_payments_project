@@ -6,6 +6,8 @@ plugins {
 
 group = 'com.howwow'
 version = '0.0.1-SNAPSHOT'
+description = 'cpp-payment-processor-service'
+
 
 java {
     toolchain {

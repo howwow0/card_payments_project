@@ -12,7 +12,7 @@ ext {
 
 group = 'com.howwow'
 version = '0.0.1-SNAPSHOT'
-
+description = 'cpp-payment-orchestrator-service'
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)

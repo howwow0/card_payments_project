@@ -2,17 +2,17 @@ spring:
   application:
     name: cpp-notification-service
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${CPP_NOTIFICATION_SERVICE_KAFKA_BOOTSTRAP_SERVERS}
     consumer:
       group-id: email-service
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    host: ${CPP_NOTIFICATION_SERVICE_MAIL_HOST}
+    port: ${CPP_NOTIFICATION_SERVICE_MAIL_PORT}
+    username: ${CPP_NOTIFICATION_SERVICE_MAIL_USERNAME}
+    password: ${CPP_NOTIFICATION_SERVICE_MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -21,7 +21,7 @@ spring:
             enable: true
 
 server:
-  port: ${CPP_NOTIFICATION_SERVICE_PORT:9030}
+  port: ${CPP_NOTIFICATION_SERVICE_PORT}
   servlet:
     context-path: /api/v1
 

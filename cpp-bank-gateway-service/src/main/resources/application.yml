@@ -1,12 +1,11 @@
 server:
-  port: ${CPP_BANK_GATEWAY_SERVICE_PORT:9002}
+  port: ${CPP_BANK_GATEWAY_SERVICE_PORT}
   servlet:
     context-path: /api/v1
 
 spring:
   application:
     name: cpp-bank-gateway-service
-
 
 springdoc:
   api-docs:

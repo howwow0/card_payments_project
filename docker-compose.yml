@@ -9,7 +9,7 @@ services:
       - "81:81"    # Веб-консоль H2
     environment:
       H2_USER: sa
-      H2_PASSWORD: n4D#xQ8vTpZ3
+      H2_PASSWORD: n4DxQ8vTpZ3
       H2_TCP_ALLOW_OTHERS: "true"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:81" ]
@@ -30,16 +30,35 @@ services:
     depends_on:
       h2-db:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
       SPRING_PROFILES_ACTIVE: default
     networks:
       - backend-network
 
-  cpp-card-gateway:
+  cpp-bank-gateway-service:
     build:
       context: .
-      dockerfile: cpp-card-gateway/Dockerfile
-    container_name: cpp-card-gateway
+      dockerfile: cpp-bank-gateway-service/Dockerfile
+    container_name: cpp-bank-gateway-service
+    ports:
+      - "9002:9002"
+    depends_on:
+      h2-db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+    networks:
+      - backend-network
+
+  cpp-payment-gateway-service:
+    build:
+      context: .
+      dockerfile: cpp-payment-gateway-service/Dockerfile
+    container_name: cpp-payment-gateway-service
     ports:
       - "9000:9000"
     depends_on:
@@ -52,11 +71,11 @@ services:
     networks:
       - backend-network
 
-  cpp-auth-request:
+  cpp-payment-orchestrator-service:
     build:
       context: .
-      dockerfile: cpp-auth-request/Dockerfile
-    container_name: cpp-auth-request
+      dockerfile: cpp-payment-orchestrator-service/Dockerfile
+    container_name: cpp-payment-orchestrator-service
     ports:
       - "9001:9001"
     depends_on:
@@ -138,17 +157,6 @@ services:
       - "9030:9030"
     environment:
       SPRING_PROFILES_ACTIVE: default
-    networks:
-      - backend-network
-  kafka:
-    image: bitnami/kafka:latest
-    ports:
-      - "9093:9093"
-    environment:
-      - KAFKA_BROKER_ID=1
-      - KAFKA_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
-      - ALLOW_PLAINTEXT_LISTENER=yes
     networks:
       - backend-network
 networks:

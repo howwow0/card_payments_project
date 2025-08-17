@@ -1,9 +1,9 @@
 server:
-  port: ${CPP_PAYMENT_GATEWAY_SERVICE_PORT:9000}
+  port: ${CPP_PAYMENT_GATEWAY_SERVICE_PORT}
   servlet:
     context-path: /api/v1
 
-security-service: ${SECURITY_SERVICE_URL:http://localhost:9010}
+security-service: ${CPP_SECURITY_SERVICE_URI}
 
 spring:
   application:
@@ -13,8 +13,8 @@ spring:
       server:
         webflux:
           routes:
-            - id: auth-request
-              uri: ${AUTH_REQUEST_ROUTE_URI:http://localhost:9001}
+            - id: cpp-payment-orchestrator-service
+              uri: ${CPP_PAYMENT_ORCHESTRATOR_SERVICE_URI}
               predicates:
                 - Path=/api/v1/payment/authorize
               filters:

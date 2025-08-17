@@ -8,8 +8,9 @@
 ## Создайте .env с данными сервисов
 
 ```
-SECURITY_SERVICE_URL: http://security-service:9010
-AUTH_REQUEST_ROUTE_URI: http://payment-auth-service:9001
+CPP_SECURITY_SERVICE_URI: http://cpp-security-service:9010
+CPP_PAYMENT_ORCHESTRATOR_SERVICE_URI: http://cpp-auth-request:9001
+CPP_PAYMENT_GATEWAY_SERVICE_PORT:9000
 ```
 
 ---

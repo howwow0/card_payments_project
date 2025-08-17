@@ -12,7 +12,7 @@ RUN gradle :cpp-bank-gateway-service:build --no-daemon
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
-COPY --from=builder /app/cpp-bauth-request/build/libs/cpp-bank-gateway-service-*.jar app.jar
+COPY --from=builder /app/cpp-bank-gateway-service/build/libs/cpp-bank-gateway-service-*.jar app.jar
 
 EXPOSE 9002
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -6,7 +6,7 @@ jwt:
   expirationTime: 600
 
 server:
-  port: ${SECURITY_SERVICE_PORT:9010}
+  port: ${CPP_SECURITY_SERVICE_PORT}
   servlet:
     context-path: /api/v1
 
@@ -20,11 +20,11 @@ springdoc:
 
 keydb:
   datasource:
-    url: jdbc:h2:tcp://h2-db:9092/./keysdb
-    username: sa
-    password: n4D#xQ8vTpZ3
-    card-name: card_key
-    jwt-name: jwt_signing_key
+    url: ${KEY_DB_URL}
+    username: ${KEY_DB_USERNAME}
+    password: ${KEY_DB_PASSWORD}
+    card-name: ${CARD_NAME_KEY}
+    jwt-name: ${JWT_NAME_KEY}
 
 logging:
   level:

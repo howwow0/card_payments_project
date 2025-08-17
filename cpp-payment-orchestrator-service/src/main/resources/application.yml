@@ -1,5 +1,5 @@
 server:
-  port: ${CPP_PAYMENT_ORCHESTRATOR_SERVICE_PORT:9001}
+  port: ${CPP_PAYMENT_ORCHESTRATOR_SERVICE_PORT}
   servlet:
     context-path: /api/v1
 
@@ -15,15 +15,15 @@ spring:
 
 bank-gateway:
   service:
-    url: ${BANK_GATEWAY_SERVICE_URL:http://localhost:9002}
+    url: ${CPP_BANK_GATEWAY_SERVICE_URI}
 
 payment-processor:
   service:
-    url: ${PAYMENT_PROCESSOR_SERVICE_URL:http://localhost:9003}
+    url: ${CPP_PAYMENT_PROCESSOR_SERVICE_URI}
 
 logging-service:
   service:
-    url: ${LOGGING_SERVICE_URL:http://localhost:9020}
+    url: ${CPP_LOGGING_SERVICE_URI}
 
 springdoc:
   api-docs:
@@ -35,11 +35,12 @@ springdoc:
 
 keydb:
   datasource:
-    url: jdbc:h2:tcp://h2-db:9092/./keysdb
-    username: sa
-    password: n4D#xQ8vTpZ3
-    card-name: card_key
-    jwt-name: jwt_signing_key
+    url: ${KEY_DB_URL}
+    username: ${KEY_DB_USERNAME}
+    password: ${KEY_DB_PASSWORD}
+    card-name: ${CARD_NAME_KEY}
+    jwt-name: ${JWT_NAME_KEY}
+
 logging:
   level:
     org.springframework: INFO

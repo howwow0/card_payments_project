@@ -3,7 +3,7 @@ spring:
     name: cpp-payment-processor-service
 
 server:
-  port: ${PAYMENT_PROCESSOR_SERVICE_PORT:9003}
+  port: ${CPP_PAYMENT_PROCESSOR_SERVICE_PORT}
   servlet:
     context-path: /api/v1
 

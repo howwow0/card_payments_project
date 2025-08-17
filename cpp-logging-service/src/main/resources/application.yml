@@ -2,9 +2,9 @@ spring:
   application:
     name: cpp-logging-service
   datasource:
-    url: ${CPP_LOGGING_SERVICE_DATASOURCE_URL:jdbc:postgresql://localhost:5432/cpp_logging_db}
-    username: ${CPP_LOGGING_SERVICE_DATASOURCE_USERNAME:postgres}
-    password: ${CPP_LOGGING_SERVICE_DATASOURCE_PASSWORD:sa}
+    url: ${CPP_LOGGING_SERVICE_DATASOURCE_URL}
+    username: ${CPP_LOGGING_SERVICE_DATASOURCE_USERNAME}
+    password: ${CPP_LOGGING_SERVICE_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -18,7 +18,7 @@ spring:
     enabled: false
 
 server:
-  port: ${CPP_LOGGING_SERVICE_PORT:9020}
+  port: ${CPP_LOGGING_SERVICE_PORT}
   servlet:
     context-path: /api/v1
 
