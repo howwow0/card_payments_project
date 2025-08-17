@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: cpp-payment-processor-service
+
+server:
+  port: ${PAYMENT_PROCESSOR_SERVICE_PORT:9003}
+  servlet:
+    context-path: /api/v1
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+logging:
+  level:
+    org.springframework: INFO
+    com.howwow: INFO
