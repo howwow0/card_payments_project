@@ -10,5 +10,7 @@ include(
         ':cpp-keys-starter',
         ':cpp-logging-service',
         ':cpp-notification-service',
-        ':cpp-payment-recording-service'
+        ':cpp-payment-recording-service',
+        ':cpp-shared-events'
 )
+

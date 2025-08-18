@@ -3,6 +3,7 @@ LABEL authors="HowPC"
 WORKDIR /app
 
 COPY settings.gradle build.gradle ./
+COPY cpp-shared-events ./cpp-shared-events
 COPY cpp-notification-service/build.gradle ./cpp-notification-service/build.gradle
 COPY cpp-notification-service/src ./cpp-notification-service/src
 

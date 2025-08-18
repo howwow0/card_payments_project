@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.howwow'
+version = 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
+test {
+    useJUnitPlatform()
+}

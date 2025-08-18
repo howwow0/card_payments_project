@@ -1,7 +1,16 @@
 spring:
   application:
     name: cpp-payment-processor-service
-
+  kafka:
+    bootstrap-servers: ${CPP_PAYMENT_PROCESSOR_SERVICE_KAFKA_BOOTSTRAP_SERVERS}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 5
+      transaction-id-prefix: tx-producer-
+      properties:
+        enable.idempotence: true
 server:
   port: ${CPP_PAYMENT_PROCESSOR_SERVICE_PORT}
   servlet:
@@ -19,3 +28,4 @@ logging:
   level:
     org.springframework: INFO
     com.howwow: INFO
+    org.apache.kafka: INFO

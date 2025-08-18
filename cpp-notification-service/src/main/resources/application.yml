@@ -1,13 +1,25 @@
 spring:
   application:
     name: cpp-notification-service
+  task:
+    execution:
+      pool:
+        core-size: 3
+        max-size: 10
+        queue-capacity: 1000
   kafka:
-    bootstrap-servers: ${CPP_NOTIFICATION_SERVICE_KAFKA_BOOTSTRAP_SERVERS}
     consumer:
-      group-id: email-service
+      group-id: payment-consumers-email
+      enable-auto-commit: false
       auto-offset-reset: earliest
+      isolation-level: read_committed
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      bootstrap-servers: ${CPP_NOTIFICATION_SERVICE_KAFKA_BOOTSTRAP_SERVERS}
+      properties:
+        spring.json.trusted.packages: "com.howwow.**"
+    listener:
+      ack-mode: manual
   mail:
     host: ${CPP_NOTIFICATION_SERVICE_MAIL_HOST}
     port: ${CPP_NOTIFICATION_SERVICE_MAIL_PORT}
@@ -19,6 +31,7 @@ spring:
           auth: true
           starttls:
             enable: true
+            required: true
 
 server:
   port: ${CPP_NOTIFICATION_SERVICE_PORT}
