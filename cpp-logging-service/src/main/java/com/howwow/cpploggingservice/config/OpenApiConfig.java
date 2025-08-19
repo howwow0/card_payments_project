@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "Logging API",
                 version = "1.0",
-                description = "API для логирования"
+                description = "API для логирования этапов платежа"
         )
 )
 public class OpenApiConfig {

@@ -1,7 +1,8 @@
 package com.howwow.cpploggingservice.business.mapper;
 
 import com.howwow.cpploggingservice.business.persistence.entity.LogEntry;
-import com.howwow.cpploggingservice.rest.dto.LogDto;
+import com.howwow.cpploggingservice.rest.dto.request.CreateLogRequest;
+import com.howwow.cpploggingservice.rest.dto.response.CreateLogResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -9,17 +10,17 @@ import java.util.List;
 @Component
 public class LogMapper {
 
-    public LogDto asLogDto(LogEntry log) {
-        return new LogDto(log.getTimestamp(), log.getLevel(), log.getService(), log.getMessage(), log.getTraceId());
+    public CreateLogResponse asCreateLogResponse(LogEntry log) {
+        return new CreateLogResponse(log.getTimestamp(), log.getLevel(), log.getService(), log.getMessage(), log.getTraceId());
     }
 
-    public List<LogDto> asLogDtoList(List<LogEntry> logs) {
+    public List<CreateLogResponse> asCreateLogResponseList(List<LogEntry> logs) {
         return logs.stream()
-                .map(this::asLogDto)
+                .map(this::asCreateLogResponse)
                 .toList();
     }
 
-    public LogEntry asLogEntry(LogDto logDto) {
-        return new LogEntry(logDto.level(), logDto.message(), logDto.timestamp(), logDto.traceId(), logDto.service());
+    public LogEntry asLogEntry(CreateLogRequest createLogRequest) {
+        return new LogEntry(createLogRequest.level(), createLogRequest.message(), createLogRequest.timestamp(), createLogRequest.traceId(), createLogRequest.service());
     }
 }

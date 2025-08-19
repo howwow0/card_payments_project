@@ -115,6 +115,7 @@ services:
       - "9020:9020"
     depends_on:
       - cpp-logging-database
+      - cpp-logging-liquibase
     environment:
       SPRING_PROFILES_ACTIVE: default
     networks:

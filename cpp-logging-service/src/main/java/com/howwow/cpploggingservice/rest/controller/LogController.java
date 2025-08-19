@@ -1,7 +1,8 @@
 package com.howwow.cpploggingservice.rest.controller;
 
 import com.howwow.cpploggingservice.business.service.LogService;
-import com.howwow.cpploggingservice.rest.dto.LogDto;
+import com.howwow.cpploggingservice.rest.dto.request.CreateLogRequest;
+import com.howwow.cpploggingservice.rest.dto.response.CreateLogResponse;
 import com.howwow.cpploggingservice.rest.exception.AbstractApiException;
 import com.howwow.cpploggingservice.rest.exception.ValidationErrorException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +43,7 @@ public class LogController {
                     description = "Лог успешно сохранен",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = LogDto.class)
+                            schema = @Schema(implementation = CreateLogResponse.class)
                     )
             ),
             @ApiResponse(
@@ -60,8 +61,8 @@ public class LogController {
                     )
             )
     })
-    public ResponseEntity<LogDto> createLog(@RequestBody @Valid LogDto logDto) {
-        return ResponseEntity.ok(logService.saveLog(logDto));
+    public ResponseEntity<CreateLogResponse> createLog(@RequestBody @Valid CreateLogRequest createLogRequest) {
+        return ResponseEntity.ok(logService.saveLog(createLogRequest));
     }
 
     @GetMapping("/fetch-logs")
@@ -75,25 +76,25 @@ public class LogController {
                     description = "Данные лого возвращены",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = LogDto.class)
+                            schema = @Schema(implementation = CreateLogResponse.class)
                     )
             ),
             @ApiResponse(
                     responseCode = "400",
                     description = "Ошибка валидации входных данных",
                     content = @Content(
-                            schema = @Schema(implementation = LogDto.class)
+                            schema = @Schema(implementation = ValidationErrorException.class)
                     )
             ),
             @ApiResponse(
                     responseCode = "500",
                     description = "Внутренняя ошибка сервера",
                     content = @Content(
-                            schema = @Schema(implementation = LogDto.class)
+                            schema = @Schema(implementation = AbstractApiException.class)
                     )
             )
     })
-    public ResponseEntity<List<LogDto>> fetchLogs(
+    public ResponseEntity<List<CreateLogResponse>> fetchLogs(
             @RequestParam(name = "level", required = false) LogLevel level,
             @RequestParam(name = "service", required = false) String service,
             @RequestParam(name = "traceId", required = false) String traceId,

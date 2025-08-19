@@ -4,7 +4,8 @@ import com.howwow.cpploggingservice.business.mapper.LogMapper;
 import com.howwow.cpploggingservice.business.persistence.entity.LogEntry;
 import com.howwow.cpploggingservice.business.persistence.repository.LogEntryRepository;
 import com.howwow.cpploggingservice.business.service.LogService;
-import com.howwow.cpploggingservice.rest.dto.LogDto;
+import com.howwow.cpploggingservice.rest.dto.request.CreateLogRequest;
+import com.howwow.cpploggingservice.rest.dto.response.CreateLogResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.logging.LogLevel;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
@@ -24,8 +24,8 @@ public class LogServiceImpl implements LogService {
     private final LogMapper logMapper;
 
     @Override
-    public LogDto saveLog(LogDto logDto) {
-        LogEntry logEntry = logMapper.asLogEntry(logDto);
+    public CreateLogResponse saveLog(CreateLogRequest createLogRequest) {
+        LogEntry logEntry = logMapper.asLogEntry(createLogRequest);
         LogEntry savedLogEntry = logEntryRepository.save(logEntry);
         log.info("[{}] [{}] [{}] [{}] {}",
                 savedLogEntry.getTimestamp(),
@@ -33,19 +33,13 @@ public class LogServiceImpl implements LogService {
                 savedLogEntry.getService(),
                 savedLogEntry.getTraceId(),
                 savedLogEntry.getMessage());
-        return logMapper.asLogDto(savedLogEntry);
+        return logMapper.asCreateLogResponse(savedLogEntry);
     }
 
     @Override
-    public List<LogDto> fetchLogs(LogLevel level, String service, String traceId, Instant from, Instant to, int limit) {
+    public List<CreateLogResponse> fetchLogs(LogLevel level, String service, String traceId, Instant from, Instant to, int limit) {
         Pageable pageable = PageRequest.of(0, limit);
-        List<LogEntry> entries = logEntryRepository.findLogEntriesByFilters(level,
-                service,
-                traceId,
-                from == null ? null : Timestamp.from(from),
-                to == null ? null : Timestamp.from(to),
-                pageable);
-
-        return logMapper.asLogDtoList(entries);
+        List<LogEntry> entries = logEntryRepository.findLogEntriesByFilters(level, service, traceId, from, to, pageable);
+        return logMapper.asCreateLogResponseList(entries);
     }
 }

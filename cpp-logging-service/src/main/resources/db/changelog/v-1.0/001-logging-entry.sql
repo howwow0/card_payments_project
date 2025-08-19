@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS cpp_logging_schema.logs
     level     VARCHAR(10)   NOT NULL,
     message   VARCHAR(1000) NOT NULL,
     service   VARCHAR(100)  NOT NULL,
-    timestamp TIMESTAMPTZ NOT NULL,
+    timestamp TIMESTAMP NOT NULL,
     trace_id  VARCHAR(100)  NOT NULL
 );

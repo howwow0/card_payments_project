@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 @Repository
@@ -18,16 +18,16 @@ public interface LogEntryRepository extends JpaRepository<LogEntry, Long> {
              WHERE (:level IS NULL OR l.level = :level)
                AND (:service IS NULL OR l.service = :service)
                AND (:traceId IS NULL OR l.traceId = :traceId)
-              AND (cast(:from as timestamp) IS NULL OR l.timestamp >= :from)
-              AND (cast(:to as timestamp) IS NULL OR l.timestamp <= :to)
+               AND (CAST(:from AS timestamp) IS NULL OR l.timestamp >= CAST(:from AS timestamp))
+               AND (CAST(:to AS timestamp) IS NULL OR l.timestamp <= CAST(:to AS timestamp))
              ORDER BY l.timestamp DESC
             """)
     List<LogEntry> findLogEntriesByFilters(
             @Param("level") LogLevel level,
             @Param("service") String service,
             @Param("traceId") String traceId,
-            @Param("from") Timestamp from,
-            @Param("to") Timestamp to,
+            @Param("from") Instant from,
+            @Param("to") Instant to,
             Pageable pageable
     );
 
