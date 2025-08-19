@@ -1,13 +1,11 @@
 # CPP Keys Starter
 
 Стартер для модуля выдачи JWT токенов и стартера Card Decryption Starter.
+Данный стартер является сервисом для работы с ключами. (Аналог внешних систем работы с ключами)
 
 ---
 
 ## Подключение
-
-Добавь зависимость в `build.gradle` или `pom.xml` подключаемого модуля:
-
 ### Gradle
 
 ```groovy
@@ -22,24 +20,20 @@ dependencies {
 
 Для корректной работы необходимо указать настройки подключения к H2 базе, где хранятся 2 ключа:
 
-- `card_key` — используется для расшифровки данных карты.
-- `jwt_signing_key` — используется для подписи и проверки JWT.
+- `card-name` - используется для расшифровки данных карты (название ключа в таблице).
+- `jwt-name` - используется для подписи и проверки JWT (название ключа в таблице).
 
-### Пример `application.properties`:
+### Пример `application.yml`:
 
 ```properties
-keydb.datasource.url=jdbc:h2:tcp://h2-db:9092/./keysdb
-keydb.datasource.username=sa
-keydb.datasource.password=somePassword
+keydb:
+datasource:
+url: ${KEY_DB_URL}
+username: ${KEY_DB_USERNAME}
+password: ${KEY_DB_PASSWORD}
+card-name: ${CARD_NAME_KEY}
+jwt-name: ${JWT_NAME_KEY}
 
-```
-
-#### В properties также указаны названия ключей соответствующие ID в H2 БД.
-
-``` properties
-keys-name:
-  card: card_key
-  jwt: jwt_signing_key
 ```
 
 > Убедитесь, что база доступна и содержит таблицу с ключами.
@@ -61,16 +55,10 @@ keys-name:
 
 - Подключается к H2, чтобы получить ключи. Предоставляет классы для этого.
 
----
-
-## Требования
-
-- Spring Boot 3.5.3+
-- H2 база с открытым TCP-доступом
 
 ---
 
 ## Примечания
 
 - `card_key` должен быть длиной 16, 24 или 32 байта (AES-ключ).
-- Библиотека не управляет схемой БД — создайте таблицу и строки вручную или через миграции.
+- Библиотека не управляет схемой БД, схема создается через liquibase.

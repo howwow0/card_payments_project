@@ -1,5 +1,6 @@
 package com.howwow.cppcarddecryptionstarter.security;
 
+import com.howwow.cppkeysstarter.keys.PrivateKeyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,22 +12,36 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
-@ComponentScan(basePackages = "com.howwow.cppcarddecryptionstarter.security")
 public class SecurityConfig {
-    private final CardAuthenticationFilter cardAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            CardAuthenticationFilter cardAuthenticationFilter
+    ) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(
-                        cardAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                );
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .addFilterBefore(cardAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public CardAuthenticationFilter cardAuthenticationFilter(
+            CardAuthConverter cardAuthConverter,
+            CardAuthenticationProvider cardAuthenticationProvider
+    ) {
+        return new CardAuthenticationFilter(cardAuthConverter, cardAuthenticationProvider);
+    }
+
+    @Bean
+    public CardAuthConverter cardAuthConverter(PrivateKeyService privateKeyService) {
+        return new CardAuthConverter(privateKeyService);
+    }
+
+    @Bean
+    public CardAuthenticationProvider cardAuthenticationProvider() {
+        return new CardAuthenticationProvider();
     }
 }

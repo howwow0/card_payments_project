@@ -4,18 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
 public class CardAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         if (authentication instanceof CardAuthToken token && token.isAuthenticated()) {
             log.info("Пользователь {} прошёл аутентификацию", token.getPrincipal());
-        } else {
-            log.warn("Анонимный или неаутентифицированный пользователь");
         }
         return authentication;
     }

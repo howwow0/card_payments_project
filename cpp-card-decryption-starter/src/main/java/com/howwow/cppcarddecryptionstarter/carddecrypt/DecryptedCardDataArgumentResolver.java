@@ -19,7 +19,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * Данные вытаскиваются из SpringSecurity JWT и расшифровываются сервисом CardDataDecryptionService.
  */
 @RequiredArgsConstructor
-@Component
 public class DecryptedCardDataArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final CardDataDecryptionService decryptionService;

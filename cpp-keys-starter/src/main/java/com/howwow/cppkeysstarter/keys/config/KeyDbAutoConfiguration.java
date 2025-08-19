@@ -3,7 +3,6 @@ package com.howwow.cppkeysstarter.keys.config;
 import com.howwow.cppkeysstarter.keys.PrivateKeyService;
 import com.howwow.cppkeysstarter.keys.repository.PrivateKeyRepository;
 import jakarta.persistence.EntityManagerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -23,14 +22,13 @@ import java.util.Map;
 @EntityScan(basePackages = "com.howwow.cppkeysstarter.keys.entity")
 @EnableJpaRepositories(
         basePackages = "com.howwow.cppkeysstarter.keys.repository",
-        entityManagerFactoryRef = "keyEntityManagerFactory",
-        transactionManagerRef = "keyTransactionManager"
+        entityManagerFactoryRef = "privateKeyServiceKeyEntityManagerFactory",
+        transactionManagerRef = "privateKeyServiceKeyTransactionManager"
 )
 public class KeyDbAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
-    public DataSource keyDataSource(KeyDbProperties properties) {
+    public DataSource privateKeyServiceKeyDataSource(KeyDbProperties properties) {
         return DataSourceBuilder.create()
                 .driverClassName("org.h2.Driver")
                 .url(properties.getUrl())
@@ -40,9 +38,9 @@ public class KeyDbAutoConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean keyEntityManagerFactory(DataSource keyDataSource) {
+    public LocalContainerEntityManagerFactoryBean privateKeyServiceKeyEntityManagerFactory(DataSource privateKeyServiceKeyDataSource) {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setDataSource(keyDataSource);
+        emf.setDataSource(privateKeyServiceKeyDataSource);
         emf.setPackagesToScan("com.howwow.cppkeysstarter.keys.entity");
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
@@ -55,12 +53,11 @@ public class KeyDbAutoConfiguration {
     }
 
     @Bean
-    public JpaTransactionManager keyTransactionManager(EntityManagerFactory keyEntityManagerFactory) {
+    public JpaTransactionManager privateKeyServiceKeyTransactionManager(EntityManagerFactory keyEntityManagerFactory) {
         return new JpaTransactionManager(keyEntityManagerFactory);
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public PrivateKeyService privateKeyService(
             PrivateKeyRepository repository,
             KeyDbProperties properties

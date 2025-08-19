@@ -11,11 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationConverter;
-import org.springframework.stereotype.Component;
 
 
 @RequiredArgsConstructor
-@Component
 public class CardAuthConverter implements AuthenticationConverter {
 
     private final PrivateKeyService privateKeyService;

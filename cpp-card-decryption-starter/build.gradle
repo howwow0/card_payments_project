@@ -7,6 +7,7 @@ plugins {
 group = 'com.howwow'
 version = '0.0.1-SNAPSHOT'
 description = 'cpp-card-decryption-starter'
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)

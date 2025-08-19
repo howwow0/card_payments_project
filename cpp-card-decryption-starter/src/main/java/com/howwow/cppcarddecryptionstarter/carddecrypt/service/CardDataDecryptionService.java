@@ -3,7 +3,6 @@ package com.howwow.cppcarddecryptionstarter.carddecrypt.service;
 import com.howwow.cppcarddecryptionstarter.carddecrypt.exception.DecryptedException;
 import com.howwow.cppkeysstarter.keys.PrivateKeyService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
@@ -12,11 +11,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @RequiredArgsConstructor
-@Service
 public class CardDataDecryptionService {
     private static final String DECRYPTION_ALGO = "AES/GCM/NoPadding";
-    private static final int GCM_TAG_LENGTH = 128; // bits
-    private static final int IV_LENGTH = 12; // bytes
+    private static final int GCM_TAG_LENGTH = 128;
+    private static final int IV_LENGTH = 12;
     private static final String SECRET_KEY_DECRYPTION_ALGO = "AES";
 
     private final PrivateKeyService privateKeyService;

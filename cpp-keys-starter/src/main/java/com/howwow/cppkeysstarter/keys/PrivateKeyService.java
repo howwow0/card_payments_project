@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
-@Slf4j
 public class PrivateKeyService {
 
     private final String cardName;
@@ -17,12 +16,10 @@ public class PrivateKeyService {
     private final PrivateKeyRepository repository;
 
     public String getCardEncryptionKey() {
-        log.info("getCardEncryptionKey" + cardName);
         return getKey(cardName);
     }
 
     public String getJwtSigningKey() {
-        log.info("getJwtSigningKey" + jwtKeyName);
         return getKey(jwtKeyName);
     }
 
