@@ -21,11 +21,14 @@ public class EmailPaymentEventConsumer {
             String status = event.isApproved() ? "успешно" : "неуспешно";
             String subject = "Статус вашей транзакции: " + status;
             String body = String.format(
-                    "Здравствуйте!\n\n" +
-                            "Ваш платеж с ID %s был обработан.\n" +
-                            "Статус: %s\n" +
-                            "Причина: %s\n\n" +
-                            "Спасибо за использование нашего сервиса.",
+                    """
+                            Здравствуйте!
+                            
+                            Ваш платеж с ID %s был обработан.
+                            Статус: %s
+                            Причина: %s
+                            
+                            Спасибо за использование нашего сервиса.""",
                     event.transactionId(),
                     status,
                     event.reason()

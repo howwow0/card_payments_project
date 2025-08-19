@@ -21,25 +21,6 @@ public record GatewayAuthorizationRequest(
         @Schema(description = "Валюта платежа",
                 example = "RUB",
                 requiredMode = Schema.RequiredMode.REQUIRED)
-        Currency currency,
-
-        @NotBlank(message = "Номер карты обязателен для заполнения")
-        @Schema(description = "Номер карты (13-19 цифр)",
-                example = "4111111111111111",
-                requiredMode = Schema.RequiredMode.REQUIRED)
-
-        String cardNumber,
-
-        @NotBlank(message = "Срок действия обязателен для заполнения")
-        @Schema(description = "Срок действия в формате MM/YY",
-                example = "12/25",
-                requiredMode = Schema.RequiredMode.REQUIRED)
-        String expiryDate,
-
-        @NotBlank(message = "CVV код обязателен для заполнения")
-        @Schema(description = "Код безопасности (3-4 цифры)",
-                example = "123",
-                requiredMode = Schema.RequiredMode.REQUIRED)
-        String cvv
+        Currency currency
 ) {
 }

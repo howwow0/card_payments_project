@@ -2,12 +2,12 @@ package com.howwow.cppsecurityservice.business.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.howwow.cppkeysstarter.keys.PrivateKeyService;
 import com.howwow.cppsecurityservice.business.CardEncryptionService;
 import com.howwow.cppsecurityservice.business.JwtService;
 import com.howwow.cppsecurityservice.rest.dto.request.CardAuthRequest;
 import com.howwow.cppsecurityservice.rest.dto.response.TokenResponse;
 import com.howwow.cppsecurityservice.rest.mapper.TokenMapper;
-import com.howwow.cppkeysstarter.keys.PrivateKeyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,10 +20,9 @@ import java.util.UUID;
 public class JwtServiceImpl implements JwtService {
     private final CardEncryptionService encryptionService;
     private final TokenMapper tokenMapper;
+    private final PrivateKeyService privateKeyService;
     @Value("${jwt.expirationTime}")
     private long expirationTime;
-
-    private final PrivateKeyService privateKeyService;
 
     @Override
     public TokenResponse generateToken(CardAuthRequest cardAuthRequest) {

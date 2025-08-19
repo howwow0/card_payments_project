@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: cpp-payment-recording-service
+  kafka:
+    consumer:
+      group-id: payment-consumers-recording
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      isolation-level: read_committed
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      bootstrap-servers: ${CPP_PAYMENT_RECORDING_SERVICE_KAFKA_BOOTSTRAP_SERVERS}
+      properties:
+        spring.json.trusted.packages: "com.howwow.**"
+    listener:
+      ack-mode: manual
+  data:
+    redis:
+      host: ${CPP_PAYMENT_RECORDING_SERVICE_REDIS_HOST}
+      port: ${CPP_PAYMENT_RECORDING_SERVICE_REDIS_PORT}
+server:
+  port: ${CPP_PAYMENT_RECORDING_SERVICE_PORT}
+  servlet:
+    context-path: /api/v1
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+logging:
+  level:
+    org.springframework: INFO
+    com.howwow: INFO
+    org.apache.kafka: INFO
+

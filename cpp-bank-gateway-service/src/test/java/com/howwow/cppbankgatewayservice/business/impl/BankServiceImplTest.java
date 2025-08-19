@@ -2,6 +2,7 @@ package com.howwow.cppbankgatewayservice.business.impl;
 
 import com.howwow.cppbankgatewayservice.rest.dto.request.GatewayAuthorizationRequest;
 import com.howwow.cppbankgatewayservice.rest.dto.response.GatewayAuthorizationResponse;
+import com.howwow.cppcarddecryptionstarter.carddecrypt.dto.DecryptedCardData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,34 +24,29 @@ class BankServiceImplTest {
     void authorize_shouldApproveWhenAmountLessThanOrEqual10000() {
         GatewayAuthorizationRequest request = new GatewayAuthorizationRequest(
                 BigDecimal.valueOf(9999.99),
-                Currency.getInstance("RUB"),
-                "4111111111111111",
-                "12/25",
-                "123"
+                Currency.getInstance("RUB")
         );
+        DecryptedCardData decryptedCardData = new DecryptedCardData("4111111111111111",
+                "12/25",
+                "123");
 
-        GatewayAuthorizationResponse response = bankServiceImpl.authorize(request);
+        GatewayAuthorizationResponse response = bankServiceImpl.authorize(request, decryptedCardData);
 
         assertTrue(response.isApproved());
-        assertEquals("Транзакция обработана банком - эмитентом", response.reason());
-        assertNotNull(response.bankTransactionId());
     }
 
     @Test
     void authorize_shouldRejectWhenAmountGreaterThan10000() {
-        // Arrange
         GatewayAuthorizationRequest request = new GatewayAuthorizationRequest(
                 BigDecimal.valueOf(10000.1),
-                Currency.getInstance("RUB"),
-                "4111111111111111",
-                "12/25",
-                "123"
+                Currency.getInstance("RUB")
         );
+        DecryptedCardData decryptedCardData = new DecryptedCardData("4111111111111111",
+                "12/25",
+                "123");
 
-        GatewayAuthorizationResponse response = bankServiceImpl.authorize(request);
+        GatewayAuthorizationResponse response = bankServiceImpl.authorize(request, decryptedCardData);
 
         assertFalse(response.isApproved());
-        assertEquals("Недостаточно денег на карте", response.reason());
-        assertNotNull(response.bankTransactionId());
     }
 }

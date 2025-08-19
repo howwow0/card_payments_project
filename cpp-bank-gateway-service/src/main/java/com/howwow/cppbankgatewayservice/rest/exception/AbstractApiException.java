@@ -1,4 +1,4 @@
-package com.howwow.cpppaymentprocessorservice.rest.exception;
+package com.howwow.cppbankgatewayservice.rest.exception;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,6 +18,11 @@ public abstract class AbstractApiException extends RuntimeException {
 
     @Schema(description = "Сообщение об ошибке", example = "Validation error")
     protected final String message;
+
+    public AbstractApiException() {
+        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        message = "Сбой в работе сервера";
+    }
 
     public ResponseEntity<AbstractApiException> asResponse() {
         return ResponseEntity.status(httpStatus).body(this);

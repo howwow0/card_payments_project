@@ -8,9 +8,12 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       acks: all
       retries: 5
-      transaction-id-prefix: tx-producer-
       properties:
         enable.idempotence: true
+  data:
+    redis:
+      host: ${CPP_PAYMENT_PROCESSOR_SERVICE_REDIS_HOST}
+      port: ${CPP_PAYMENT_PROCESSOR_SERVICE_REDIS_PORT}
 server:
   port: ${CPP_PAYMENT_PROCESSOR_SERVICE_PORT}
   servlet:
