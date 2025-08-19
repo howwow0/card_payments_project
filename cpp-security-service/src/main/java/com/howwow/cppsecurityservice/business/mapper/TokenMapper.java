@@ -1,4 +1,4 @@
-package com.howwow.cppsecurityservice.rest.mapper;
+package com.howwow.cppsecurityservice.business.mapper;
 
 import com.howwow.cppsecurityservice.rest.dto.response.TokenResponse;
 import org.springframework.stereotype.Component;

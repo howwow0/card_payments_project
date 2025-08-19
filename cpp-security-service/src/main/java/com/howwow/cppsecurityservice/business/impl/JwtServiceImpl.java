@@ -7,7 +7,7 @@ import com.howwow.cppsecurityservice.business.CardEncryptionService;
 import com.howwow.cppsecurityservice.business.JwtService;
 import com.howwow.cppsecurityservice.rest.dto.request.CardAuthRequest;
 import com.howwow.cppsecurityservice.rest.dto.response.TokenResponse;
-import com.howwow.cppsecurityservice.rest.mapper.TokenMapper;
+import com.howwow.cppsecurityservice.business.mapper.TokenMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

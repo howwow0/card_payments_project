@@ -3,7 +3,7 @@ spring:
     name: cpp-security-service
 
 jwt:
-  expirationTime: 600
+  expirationTime: 900
 
 server:
   port: ${CPP_SECURITY_SERVICE_PORT}
