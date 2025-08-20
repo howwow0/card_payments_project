@@ -9,7 +9,9 @@
 
 ```
 CPP_SECURITY_SERVICE_URI: http://cpp-security-service:9010
-CPP_PAYMENT_ORCHESTRATOR_SERVICE_URI: http://cpp-auth-request:9001
+CPP_PAYMENT_ORCHESTRATOR_SERVICE_URI: http://cpp-payment-orchestrator-service:9001
+CPP_PAYMENT_RECORDING_SERVICE_URI: http://cpp-payment-recording-service:9004
+CPP_LOGGING_SERVICE_URI:http://cpp-logging-service:9020
 CPP_PAYMENT_GATEWAY_SERVICE_PORT:9000
 ```
 
@@ -24,7 +26,8 @@ CPP_PAYMENT_GATEWAY_SERVICE_PORT:9000
   "cardNumber": "4111111111111111",
   "expiryDate": "12/25",
   "cvv": "123",
-  "merchantId": "550e8400-e29b-41d4-a716-446655440000"
+  "merchantId": "550e8400-e29b-41d4-a716-446655440000",
+  "email": "sample@gmail.com"
 }
 ```
 

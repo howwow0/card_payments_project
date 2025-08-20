@@ -20,9 +20,14 @@ spring:
               filters:
                 - name: CardValidation
                 - name: JwtInjection
-                  args:
-                    isLogIP: true
-
+            - id: cpp-logging-service-api
+              uri: ${CPP_LOGGING_SERVICE_URI}
+              predicates:
+                - Path=/api/v1/logging/fetch-logs
+            - id: cpp-payment-recording-service-api
+              uri: ${CPP_PAYMENT_RECORDING_SERVICE_URI}
+              predicates:
+                - Path=/api/v1/payment/**
 logging:
   level:
     org.springframework: INFO

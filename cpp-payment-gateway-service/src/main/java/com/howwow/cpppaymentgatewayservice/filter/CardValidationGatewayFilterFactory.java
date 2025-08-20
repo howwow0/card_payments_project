@@ -1,7 +1,7 @@
 package com.howwow.cpppaymentgatewayservice.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.howwow.cpppaymentgatewayservice.dto.GatewayPaymentAuthorizationRequest;
+import com.howwow.cpppaymentgatewayservice.dto.request.GatewayPaymentAuthorizationRequest;
 import com.howwow.cpppaymentgatewayservice.validation.ValidationRule;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,13 +45,12 @@ public class CardValidationGatewayFilterFactory extends AbstractGatewayFilterFac
         return (exchange, chain) -> DataBufferUtils.join(exchange.getRequest().getBody())
                 .publishOn(Schedulers.boundedElastic())
                 .flatMap(dataBuffer -> {
-                    byte[] bytes = new byte[dataBuffer.readableByteCount()];
-                    dataBuffer.read(bytes);
-                    DataBufferUtils.release(dataBuffer);
-
-                    String bodyString = new String(bytes, StandardCharsets.UTF_8);
-
                     try {
+                        byte[] bytes = new byte[dataBuffer.readableByteCount()];
+                        dataBuffer.read(bytes);
+                        DataBufferUtils.release(dataBuffer);
+                        String bodyString = new String(bytes, StandardCharsets.UTF_8);
+
                         GatewayPaymentAuthorizationRequest request = objectMapper.readValue(bodyString, GatewayPaymentAuthorizationRequest.class);
 
                         if (!expiryDateValidationRule.isValid(request.expiryDate())) {
@@ -65,7 +64,6 @@ public class CardValidationGatewayFilterFactory extends AbstractGatewayFilterFac
                         if (!cvvValidationRule.isValid(request.cvv())) {
                             return onError(exchange, "Неверный формат CVV кода (ожидается 3 или 4 символа)");
                         }
-
 
                         ServerHttpRequest mutatedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
                             @Override
@@ -83,14 +81,11 @@ public class CardValidationGatewayFilterFactory extends AbstractGatewayFilterFac
                                 .build();
 
                         return chain.filter(mutatedExchange);
-
                     } catch (Exception e) {
                         return onError(exchange, "Неверное тело запроса: " + e.getMessage());
                     }
-
                 });
     }
-
 
     public static class Config {
     }

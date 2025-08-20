@@ -3,8 +3,8 @@ package com.howwow.cpppaymentgatewayservice.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.howwow.cpppaymentgatewayservice.client.SecurityClient;
 import com.howwow.cpppaymentgatewayservice.client.dto.request.CardAuthRequest;
-import com.howwow.cpppaymentgatewayservice.dto.GatewayPaymentAuthorizationRequest;
-import com.howwow.cpppaymentgatewayservice.dto.PaymentAuthorizationRequest;
+import com.howwow.cpppaymentgatewayservice.dto.request.GatewayPaymentAuthorizationRequest;
+import com.howwow.cpppaymentgatewayservice.dto.request.PaymentAuthorizationRequest;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,16 +42,10 @@ public class JwtInjectionGatewayFilterFactory extends AbstractGatewayFilterFacto
 
     @Override
     public GatewayFilter apply(Config config) {
-        return (exchange, chain) -> {
-            if (config.isLogIP) {
-                var remoteAddress = exchange.getRequest().getRemoteAddress();
-                if (remoteAddress != null) {
-                    log.info("Client IP: {}", remoteAddress.getAddress().getHostAddress());
-                }
-            }
-            return DataBufferUtils.join(exchange.getRequest().getBody())
-                    .publishOn(Schedulers.boundedElastic())
-                    .flatMap(dataBuffer -> {
+        return (exchange, chain) -> DataBufferUtils.join(exchange.getRequest().getBody())
+                .publishOn(Schedulers.boundedElastic())
+                .flatMap(dataBuffer -> {
+                    try {
                         byte[] bytes = new byte[dataBuffer.readableByteCount()];
                         dataBuffer.read(bytes);
                         DataBufferUtils.release(dataBuffer);
@@ -59,61 +53,59 @@ public class JwtInjectionGatewayFilterFactory extends AbstractGatewayFilterFacto
                         String bodyString = new String(bytes, StandardCharsets.UTF_8);
 
                         GatewayPaymentAuthorizationRequest request;
-                        try {
-                            request = objectMapper.readValue(bodyString, GatewayPaymentAuthorizationRequest.class);
-                        } catch (Exception e) {
-                            return onError(exchange, "Неверное тело запроса: " + e.getMessage());
-                        }
+
+                        request = objectMapper.readValue(bodyString, GatewayPaymentAuthorizationRequest.class);
 
                         return Mono.fromCallable(() ->
                                         securityClient.generateToken(new CardAuthRequest(request.cardNumber(), request.expiryDate(), request.cvv()))
                                 )
                                 .subscribeOn(Schedulers.boundedElastic())
                                 .flatMap(response -> {
-                                    PaymentAuthorizationRequest newRequest = new PaymentAuthorizationRequest(
-                                            request.amount(),
-                                            request.currency(),
-                                            request.merchantId(),
-                                            request.email()
-                                    );
-
-                                    byte[] newBodyBytes;
                                     try {
+                                        PaymentAuthorizationRequest newRequest = new PaymentAuthorizationRequest(
+                                                request.amount(),
+                                                request.currency(),
+                                                request.merchantId(),
+                                                request.email()
+                                        );
+
+                                        byte[] newBodyBytes;
+
                                         newBodyBytes = objectMapper.writeValueAsBytes(newRequest);
+                                        ServerHttpRequest mutatedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
+                                            @Override
+                                            @NonNull
+                                            public Flux<DataBuffer> getBody() {
+                                                DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(newBodyBytes);
+                                                return Flux.just(buffer);
+                                            }
+
+                                            @Override
+                                            @NonNull
+                                            public HttpHeaders getHeaders() {
+                                                HttpHeaders headers = new HttpHeaders();
+                                                headers.putAll(exchange.getRequest().getHeaders());
+                                                headers.setContentLength(newBodyBytes.length);
+                                                headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + response.token());
+                                                return headers;
+                                            }
+                                        };
+
+                                        ServerWebExchange mutatedExchange = exchange.mutate()
+                                                .request(mutatedRequest)
+                                                .build();
+
+                                        return chain.filter(mutatedExchange);
                                     } catch (Exception e) {
                                         return onError(exchange, "Ошибка сериализации нового тела запроса: " + e.getMessage());
                                     }
-
-                                    ServerHttpRequest mutatedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
-                                        @Override
-                                        @NonNull
-                                        public Flux<DataBuffer> getBody() {
-                                            DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(newBodyBytes);
-                                            return Flux.just(buffer);
-                                        }
-
-                                        @Override
-                                        @NonNull
-                                        public HttpHeaders getHeaders() {
-                                            HttpHeaders headers = new HttpHeaders();
-                                            headers.putAll(exchange.getRequest().getHeaders());
-                                            headers.setContentLength(newBodyBytes.length);
-                                            headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + response.token());
-                                            return headers;
-                                        }
-                                    };
-
-                                    ServerWebExchange mutatedExchange = exchange.mutate()
-                                            .request(mutatedRequest)
-                                            .build();
-
-                                    return chain.filter(mutatedExchange);
                                 });
-                    });
-        };
+                    } catch (Exception e) {
+                        return onError(exchange, "Неверное тело запроса: " + e.getMessage());
+                    }
+                });
     }
 
     public static class Config {
-        private boolean isLogIP = false;
     }
 }
