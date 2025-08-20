@@ -20,7 +20,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("payment")
 @AllArgsConstructor
-@Tag(name = "Логирование", description = "Логирование разного уровня")
+@Tag(name = "Платежи", description = "API для работы с платежами")
 @Validated
 public class PaymentRecordingController {
 

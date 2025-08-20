@@ -21,13 +21,13 @@ repositories {
 
 dependencies {
     implementation project(':cpp-shared-events')
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation("org.liquibase:liquibase-core:4.32.0")
+    implementation("org.postgresql:postgresql:42.7.3")
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
     implementation 'org.apache.commons:commons-lang3:3.18.0'// Для устранения CVE
     implementation 'org.springframework.kafka:spring-kafka'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

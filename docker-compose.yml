@@ -98,6 +98,8 @@ services:
     depends_on:
       h2-db:
         condition: service_healthy
+      kafka:
+        condition: service_healthy
     env_file:
       - .env
     environment:
@@ -143,13 +145,51 @@ services:
       - backend-network
     restart: "no"
 
+  cpp-payment-recording-service:
+    build:
+      context: .
+      dockerfile: cpp-payment-recording-service/Dockerfile
+    container_name: cpp-payment-recording-service
+    env_file:
+      - .env
+    ports:
+      - "9004:9004"
+    depends_on:
+      - cpp-payment-recording-database
+      - cpp-payment-recording-liquibase
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+    networks:
+      - backend-network
+  cpp-payment-recording-liquibase:
+    image: liquibase/liquibase:4.32.0
+    depends_on:
+      cpp-payment-recording-database:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      LIQUIBASE_COMMAND_URL: ${CPP_PAYMENT_RECORDING_SERVICE_DATASOURCE_URL}
+      LIQUIBASE_COMMAND_USERNAME: ${CPP_PAYMENT_RECORDING_SERVICE_DATASOURCE_USERNAME}
+      LIQUIBASE_COMMAND_PASSWORD: ${CPP_PAYMENT_RECORDING_SERVICE_DATASOURCE_PASSWORD}
+    env_file:
+      - .env
+    volumes:
+      - ./cpp-payment-recording-service/src/main/resources/db/changelog:/liquibase/changelog
+    command:
+      - --searchPath=/liquibase/changelog
+      - --changelog-file=master.xml
+      - --driver=org.postgresql.Driver
+      - update
+    networks:
+      - backend-network
+    restart: "no"
   cpp-logging-database:
     image: postgres:16
     environment:
       POSTGRES_USER: ${CPP_LOGGING_SERVICE_DATASOURCE_USERNAME}
       POSTGRES_PASSWORD: ${CPP_LOGGING_SERVICE_DATASOURCE_PASSWORD}
       POSTGRES_DB: cpp_logging_db
-      POSTGRES_MULTIPLE_DATABASES: cpp_logging_db
     env_file:
       - .env
     volumes:
@@ -160,6 +200,26 @@ services:
       - backend-network
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${CPP_LOGGING_SERVICE_DATASOURCE_USERNAME} -d cpp_logging_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  cpp-payment-recording-database:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${CPP_PAYMENT_RECORDING_SERVICE_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${CPP_PAYMENT_RECORDING_SERVICE_DATASOURCE_PASSWORD}
+      POSTGRES_DB: cpp_payment_db
+    env_file:
+      - .env
+    volumes:
+      - payment_data:/var/lib/postgresql/data
+    ports:
+      - "5441:5432"   # другой порт
+    networks:
+      - backend-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${CPP_PAYMENT_RECORDING_SERVICE_DATASOURCE_USERNAME} -d cpp_payment_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -232,4 +292,5 @@ networks:
     driver: bridge
 volumes:
   log_data:
+  payment_data:
   kafka_data:

@@ -6,18 +6,28 @@ spring:
       group-id: payment-consumers-recording
       enable-auto-commit: false
       auto-offset-reset: earliest
-      isolation-level: read_committed
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      bootstrap-servers: ${CPP_PAYMENT_RECORDING_SERVICE_KAFKA_BOOTSTRAP_SERVERS}
       properties:
         spring.json.trusted.packages: "com.howwow.**"
+      bootstrap-servers: ${CPP_PAYMENT_RECORDING_SERVICE_KAFKA_BOOTSTRAP_SERVERS}
     listener:
       ack-mode: manual
-  data:
-    redis:
-      host: ${CPP_PAYMENT_RECORDING_SERVICE_REDIS_HOST}
-      port: ${CPP_PAYMENT_RECORDING_SERVICE_REDIS_PORT}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_schema: cpp_payment_schema
+    open-in-view: false
+  datasource:
+    url: ${CPP_PAYMENT_RECORDING_SERVICE_DATASOURCE_URL}
+    username: ${CPP_PAYMENT_RECORDING_SERVICE_DATASOURCE_USERNAME}
+    password: ${CPP_PAYMENT_RECORDING_SERVICE_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: false
+
 server:
   port: ${CPP_PAYMENT_RECORDING_SERVICE_PORT}
   servlet:
