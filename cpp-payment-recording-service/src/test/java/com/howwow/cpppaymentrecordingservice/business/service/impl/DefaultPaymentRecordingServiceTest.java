@@ -82,25 +82,25 @@ class DefaultPaymentRecordingServiceTest {
                 entity.getCreatedAt()
         );
 
-        when(paymentRepository.findById(id)).thenReturn(Optional.of(entity));
+        when(paymentRepository.findByTransactionId(id)).thenReturn(Optional.of(entity));
         when(paymentRecordingMapper.asPaymentResponse(entity)).thenReturn(response);
 
         PaymentResponse result = service.getPayment(id);
 
         assertNotNull(result);
         assertEquals(entity.getEmail(), result.email());
-        verify(paymentRepository, times(1)).findById(id);
+        verify(paymentRepository, times(1)).findByTransactionId(id);
         verify(paymentRecordingMapper, times(1)).asPaymentResponse(entity);
     }
 
     @Test
     void getPayment_nonExistingPayment_throwsException() {
         UUID id = UUID.randomUUID();
-        when(paymentRepository.findById(id)).thenReturn(Optional.empty());
+        when(paymentRepository.findByTransactionId(id)).thenReturn(Optional.empty());
 
         assertThrows(PaymentNotFoundException.class, () -> service.getPayment(id));
 
-        verify(paymentRepository, times(1)).findById(id);
+        verify(paymentRepository, times(1)).findByTransactionId(id);
         verifyNoInteractions(paymentRecordingMapper);
     }
 }

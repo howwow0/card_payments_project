@@ -40,9 +40,9 @@ public class DefaultPaymentRecordingService implements PaymentRecordingService {
     }
 
     @Override
-    public PaymentResponse getPayment(UUID paymentId) {
-        PaymentEntity entity = paymentRepository.findById(paymentId)
-                .orElseThrow(() -> new PaymentNotFoundException(paymentId));
+    public PaymentResponse getPayment(UUID transactionId) {
+        PaymentEntity entity = paymentRepository.findByTransactionId(transactionId)
+                .orElseThrow(() -> new PaymentNotFoundException(transactionId));
         return paymentRecordingMapper.asPaymentResponse(entity);
     }
 }

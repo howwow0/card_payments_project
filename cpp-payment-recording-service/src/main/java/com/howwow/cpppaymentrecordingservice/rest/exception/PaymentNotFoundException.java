@@ -6,6 +6,6 @@ import java.util.UUID;
 
 public class PaymentNotFoundException extends AbstractApiException {
     public PaymentNotFoundException(UUID id) {
-        super(HttpStatus.NOT_FOUND, "Платеж с ID %s не найден".formatted(id));
+        super(HttpStatus.NOT_FOUND, "Платеж с transactionalID %s не найден".formatted(id));
     }
 }
