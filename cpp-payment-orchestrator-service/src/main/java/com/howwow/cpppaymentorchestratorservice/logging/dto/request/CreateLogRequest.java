@@ -2,10 +2,10 @@ package com.howwow.cpppaymentorchestratorservice.logging.dto.request;
 
 import org.springframework.boot.logging.LogLevel;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 public record CreateLogRequest(
-        Instant timestamp,
+        LocalDateTime timestamp,
         LogLevel level,
         String service,
         String message,

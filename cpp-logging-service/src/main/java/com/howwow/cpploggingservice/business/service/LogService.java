@@ -5,6 +5,7 @@ import com.howwow.cpploggingservice.rest.dto.response.CreateLogResponse;
 import org.springframework.boot.logging.LogLevel;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface LogService {
@@ -13,7 +14,7 @@ public interface LogService {
     List<CreateLogResponse> fetchLogs(LogLevel level,
                                       String service,
                                       String traceId,
-                                      Instant from,
-                                      Instant to,
+                                      LocalDateTime from,
+                                      LocalDateTime to,
                                       int limit);
 }

@@ -27,7 +27,7 @@ CPP_LOGGING_SERVICE_PORT:9020
 
 ```json
 {
-  "timestamp": "2025-08-10T12:34:56Z",
+  "timestamp": "2025-08-10T12:34:56",
   "level": "INFO",
   "service": "user-service",
   "message": "User not found",
@@ -42,19 +42,19 @@ CPP_LOGGING_SERVICE_PORT:9020
 
 ## Query Parameters
 
-| Параметр | Обязательный | Тип     | Описание                                | Пример               |
-|----------|--------------|---------|-----------------------------------------|----------------------|
-| level    | нет          | String  | Уровень лога (INFO, WARN, ERROR)        | INFO                 |
-| service  | нет          | String  | Имя сервиса                             | user-service         |
-| traceId  | нет          | String  | Идентификатор трассировки               | abc123               |
-| from     | нет          | Instant | Начальная временная метка               | 2025-08-01T00:00:00Z |
-| to       | нет          | Instant | Конечная временная метка                | 2025-08-10T23:59:59Z |
-| limit    | да           | int     | Максимальное количество записей (1-100) | 50                   |
+| Параметр | Обязательный | Тип           | Описание                                | Пример              |
+|----------|--------------|---------------|-----------------------------------------|---------------------|
+| level    | нет          | String        | Уровень лога (INFO, WARN, ERROR)        | INFO                |
+| service  | нет          | String        | Имя сервиса                             | user-service        |
+| traceId  | нет          | String        | Идентификатор трассировки               | abc123              |
+| from     | нет          | LocalDateTime | Начальная временная метка               | 2025-08-01T00:00:00 |
+| to       | нет          | LocalDateTime | Конечная временная метка                | 2025-08-10T23:59:59 |
+| limit    | да           | int           | Максимальное количество записей (1-100) | 50                  |
 
 ## Пример запроса
 
 ```
-GET /api/v1/logging/fetch-logs?level=INFO&service=user-service&traceId=abc123&from=2025-08-01T00:00:00Z&to=2025-08-10T23:59:59Z&limit=50
+GET /api/v1/logging/fetch-logs?level=INFO&service=user-service&traceId=abc123&from=2025-08-01T00:00:00&to=2025-08-10T23:59:59&limit=50
 ```
 ## Swagger
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.logging.LogLevel;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "logs", schema = "cpp_logging_schema")
@@ -31,13 +31,13 @@ public class LogEntry {
     @Column(nullable = false, length = 100)
     private String service;
 
-    @Column(nullable = false)
-    private Instant timestamp;
+    @Column(name = "timestamp", nullable = false)
+    private LocalDateTime timestamp;
 
     @Column(nullable = false, length = 100)
     private String traceId;
 
-    public LogEntry(LogLevel level, String message, Instant timestamp, String traceId, String service) {
+    public LogEntry(LogLevel level, String message, LocalDateTime timestamp, String traceId, String service) {
         this.level = level;
         this.message = message;
         this.timestamp = timestamp;

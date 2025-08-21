@@ -6,13 +6,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.boot.logging.LogLevel;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Schema(description = "Данные лога")
 public record CreateLogRequest(
         @NotNull(message = "Временная метка не может быть пустой")
-        @Schema(description = "Временная метка лог-сообщения", example = "2025-08-10T12:34:56Z", requiredMode = Schema.RequiredMode.REQUIRED)
-        Instant timestamp,
+        @Schema(description = "Временная метка лог-сообщения", example = "2025-08-10T12:34:56", requiredMode = Schema.RequiredMode.REQUIRED)
+        LocalDateTime timestamp,
 
         @NotNull(message = "Уровень лога не может быть пустым")
         @Schema(description = "Уровень лог-сообщения (например, INFO, WARN, ERROR)", example = "INFO", requiredMode = Schema.RequiredMode.REQUIRED)

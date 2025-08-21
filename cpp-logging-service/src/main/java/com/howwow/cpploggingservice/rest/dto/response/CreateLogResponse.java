@@ -3,12 +3,12 @@ package com.howwow.cpploggingservice.rest.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.boot.logging.LogLevel;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Schema(description = "Данные лога")
 public record CreateLogResponse(
         @Schema(description = "Временная метка лог-сообщения", example = "2025-08-10T12:34:56", requiredMode = Schema.RequiredMode.REQUIRED)
-        Instant timestamp,
+        LocalDateTime timestamp,
 
         @Schema(description = "Уровень лог-сообщения (например, INFO, WARN, ERROR)", example = "INFO", requiredMode = Schema.RequiredMode.REQUIRED)
         LogLevel level,

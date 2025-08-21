@@ -8,26 +8,26 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface LogEntryRepository extends JpaRepository<LogEntry, Long> {
     @Query("""
-             SELECT l FROM LogEntry l
-             WHERE (:level IS NULL OR l.level = :level)
-               AND (:service IS NULL OR l.service = :service)
-               AND (:traceId IS NULL OR l.traceId = :traceId)
-               AND (CAST(:from AS timestamp) IS NULL OR l.timestamp >= CAST(:from AS timestamp))
-               AND (CAST(:to AS timestamp) IS NULL OR l.timestamp <= CAST(:to AS timestamp))
-             ORDER BY l.timestamp DESC
+                SELECT l FROM LogEntry l
+                WHERE (:level IS NULL OR l.level = :level)
+                  AND (:service IS NULL OR l.service = :service)
+                  AND (:traceId IS NULL OR l.traceId = :traceId)
+                  AND (cast(:from as timestamp) IS NULL OR cast(l.timestamp as timestamp) >= :from)
+                  AND (cast(:to as timestamp) IS NULL OR cast(l.timestamp as timestamp) <= :to)
+                ORDER BY l.timestamp DESC
             """)
     List<LogEntry> findLogEntriesByFilters(
             @Param("level") LogLevel level,
             @Param("service") String service,
             @Param("traceId") String traceId,
-            @Param("from") Instant from,
-            @Param("to") Instant to,
+            @Param("from") LocalDateTime from,
+            @Param("to") LocalDateTime to,
             Pageable pageable
     );
 

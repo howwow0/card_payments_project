@@ -21,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -98,8 +99,8 @@ public class LogController {
             @RequestParam(name = "level", required = false) LogLevel level,
             @RequestParam(name = "service", required = false) String service,
             @RequestParam(name = "traceId", required = false) String traceId,
-            @RequestParam(name = "from", required = false) Instant from,
-            @RequestParam(name = "to", required = false) Instant to,
+            @RequestParam(name = "from", required = false) LocalDateTime from,
+            @RequestParam(name = "to", required = false) LocalDateTime to,
             @RequestParam(name = "limit")
             @Min(1) @Max(100) int limit) {
         return ResponseEntity.ok(logService.fetchLogs(level, service, traceId, from, to, limit));

@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,7 +37,7 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public List<CreateLogResponse> fetchLogs(LogLevel level, String service, String traceId, Instant from, Instant to, int limit) {
+    public List<CreateLogResponse> fetchLogs(LogLevel level, String service, String traceId, LocalDateTime from, LocalDateTime to, int limit) {
         Pageable pageable = PageRequest.of(0, limit);
         List<LogEntry> entries = logEntryRepository.findLogEntriesByFilters(level, service, traceId, from, to, pageable);
         return logMapper.asCreateLogResponseList(entries);

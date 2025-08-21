@@ -8,7 +8,7 @@ import com.howwow.cpploggingservice.rest.dto.response.CreateLogResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.logging.LogLevel;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -19,7 +19,7 @@ class LogMapperTest {
     @Test
     void testAsLogEntry() {
         CreateLogRequest request = new CreateLogRequest(
-                Instant.parse("2025-08-19T12:00:00Z"),
+                LocalDateTime.parse("2025-08-19T12:00:00"),
                 LogLevel.INFO,
                 "user-service",
                 "Test message",
@@ -39,7 +39,7 @@ class LogMapperTest {
     void testAsCreateLogResponse() {
         LogEntry logEntry = new LogEntry(LogLevel.INFO,
                 "Test message",
-                Instant.parse("2025-08-19T12:00:00Z"),
+                LocalDateTime.parse("2025-08-19T12:00:00"),
                 "trace123",
                 "user-service"
         );
@@ -55,8 +55,8 @@ class LogMapperTest {
 
     @Test
     void testAsCreateLogResponseList() {
-        LogEntry logEntry1 = new LogEntry(LogLevel.INFO, "Msg1", Instant.parse("2025-08-19T12:00:00Z"), "trace1", "service1");
-        LogEntry logEntry2 = new LogEntry(LogLevel.ERROR, "Msg2", Instant.parse("2025-08-19T13:00:00Z"), "trace2", "service2");
+        LogEntry logEntry1 = new LogEntry(LogLevel.INFO, "Msg1", LocalDateTime.parse("2025-08-19T12:00:00"), "trace1", "service1");
+        LogEntry logEntry2 = new LogEntry(LogLevel.ERROR, "Msg2", LocalDateTime.parse("2025-08-19T13:00:00"), "trace2", "service2");
 
         List<CreateLogResponse> responses = mapper.asCreateLogResponseList(List.of(logEntry1, logEntry2));
 

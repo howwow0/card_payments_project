@@ -17,6 +17,7 @@ import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -55,7 +56,7 @@ public class PaymentSagaServiceImpl implements PaymentSagaService {
 
         log.info("Шаг 3: Логирование операции");
         var logRequest = new CreateLogRequest(
-                Instant.now(),
+                LocalDateTime.now(),
                 LogLevel.INFO,
                 "cpp-payment-orchestrator-service",
                 String.format("Платеж %s успешно обработан.",

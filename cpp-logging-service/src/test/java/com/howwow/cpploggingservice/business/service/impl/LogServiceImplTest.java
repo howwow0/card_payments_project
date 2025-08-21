@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,7 +41,7 @@ class LogServiceImplTest {
     void setUp() {
 
         createLogRequest = new CreateLogRequest(
-                Instant.parse("2025-08-10T12:34:56Z"),
+                LocalDateTime.parse("2025-08-10T12:34:56"),
                 LogLevel.INFO,
                 "user-service",
                 "User not found",
@@ -84,8 +84,8 @@ class LogServiceImplTest {
         List<LogEntry> entries = List.of(logEntry);
         List<CreateLogResponse> responses = List.of(createLogResponse);
 
-        Instant from = Instant.parse("2025-08-01T00:00:00Z");
-        Instant to = Instant.parse("2025-08-31T23:59:59Z");
+        LocalDateTime from = LocalDateTime.parse("2025-08-01T00:00:00");
+        LocalDateTime to = LocalDateTime.parse("2025-08-31T23:59:59");
 
         when(logEntryRepository.findLogEntriesByFilters(
                 eq(LogLevel.INFO),
@@ -99,8 +99,8 @@ class LogServiceImplTest {
 
         List<CreateLogResponse> result = logService.fetchLogs(
                 LogLevel.INFO, "user-service", "abc123",
-                Instant.parse("2025-08-01T00:00:00Z"),
-                Instant.parse("2025-08-31T23:59:59Z"),
+                LocalDateTime.parse("2025-08-01T00:00:00"),
+                LocalDateTime.parse("2025-08-31T23:59:59"),
                 10
         );
 
