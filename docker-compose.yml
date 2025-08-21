@@ -100,10 +100,34 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
+      cpp-payment-processor-redis:
+        condition: service_healthy
     env_file:
       - .env
     environment:
       SPRING_PROFILES_ACTIVE: default
+    networks:
+      - backend-network
+  cpp-payment-processor-redis:
+    image: redis:8.2
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: >
+      redis-server 
+      --appendonly yes 
+      --appendfsync everysec 
+      --save 900 1 
+      --save 300 10 
+      --save 60 10000
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - backend-network
   cpp-logging-service:
@@ -294,3 +318,4 @@ volumes:
   log_data:
   payment_data:
   kafka_data:
+  redis-data:

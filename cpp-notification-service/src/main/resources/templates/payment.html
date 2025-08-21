@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статус платежа</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: Arial, sans-serif;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #4361ee;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .status-banner {
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .content { padding: 20px; }
+        .card { background: #ecf0f1; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+
+        .info-item {
+            margin-bottom: 15px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #95a5a6;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .amount-highlight {
+            font-size: 24px;
+            color: #4361ee;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #7f8c8d;
+            font-size: 12px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 style="margin: 0; font-size: 24px;">Статус платежа</h1>
+        <p style="margin: 5px 0 0 0;">Информация о вашей транзакции</p>
+    </div>
+
+    <div class="status-banner" th:style="${event.isApproved} ? 'background: #2ecc71; color: #ffffff;' : 'background: #e74c3c; color: #ffffff;'">
+        <span th:text="${event.isApproved} ? 'Платёж успешно выполнен' : 'Платёж отклонён'"></span>
+    </div>
+
+    <div class="content">
+        <div class="card">
+            <div style="font-size: 18px; font-weight: bold; margin-bottom: 15px;">
+                Информация о транзакции
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">ID транзакции</div>
+                <div class="info-value" th:text="${event.transactionId}"></div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Банковский ID транзакции</div>
+                <div class="info-value" th:text="${event.bankTransactionId}"></div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">ID продавца</div>
+                <div class="info-value" th:text="${event.merchantId}"></div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Сумма</div>
+                <div class="info-value amount-highlight" th:text="${event.amount} + ' ' + ${event.currency}"></div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Email</div>
+                <div class="info-value" th:text="${event.email}"></div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Статус</div>
+                <div class="status-badge" th:style="${event.isApproved} ? 'background: rgba(46, 204, 113, 0.2); color: #27ae60;' : 'background: rgba(231, 76, 60, 0.2); color: #c0392b;'">
+                    <span th:text="${event.isApproved} ? 'Подтверждено' : 'Отклонено'"></span>
+                </div>
+            </div>
+
+            <div class="reason-box" th:if="${event.reason}">
+                <div th:text="${event.reason}"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Если у вас возникли вопросы, пожалуйста, обратитесь в службу поддержки</p>
+        <p>© 2025 Платежная система "HowWow"</p>
+    </div>
+</div>
+</body>
+</html>

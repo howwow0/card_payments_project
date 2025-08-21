@@ -35,10 +35,9 @@ public class PaymentRecordingEventConsumer {
             ack.acknowledge();
         } catch (DataIntegrityViolationException e) {
             log.info("Событие {} уже обработано, пропускаем", event.transactionId());
-            ack.acknowledge(); // подтверждаем дубликат, чтобы не доставлять снова
+            ack.acknowledge();
         } catch (Exception e) {
             log.error("Ошибка обработки события {}: {}", event.transactionId(), e.getMessage(), e);
-            // ack не вызываем, Kafka повторит сообщение позже
         }
     }
 }

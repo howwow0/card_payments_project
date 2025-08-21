@@ -5,19 +5,14 @@
 
 ---
 
-## Переменные окружения
 
-| Переменная                | Описание            | Пример                 |
-|---------------------------|---------------------|------------------------|
-| `KAFKA_BOOTSTRAP_SERVERS` | Адрес Kafka брокера | `localhost:9092`       |
-| `MAIL_HOST`               | SMTP-хост           | `smtp.gmail.com`       |
-| `MAIL_PORT`               | SMTP-порт           | `587`                  |
-| `MAIL_USERNAME`           | Логин SMTP          | `your_email@gmail.com` |
-| `MAIL_PASSWORD`           | Пароль/токен SMTP   | `secret`               |
-| `SERVER_PORT`             | HTTP-порт сервиса   | `9030`                 |
+## Создайте .env с данными для подключения к PostgresSQL
 
----
-
-## Запуск
-
-Через docker-compose.yml
+```
+CPP_NOTIFICATION_SERVICE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+CPP_NOTIFICATION_SERVICE_MAIL_HOST: smtp.gmail.com
+CPP_NOTIFICATION_SERVICE_MAIL_PORT: 587
+CPP_NOTIFICATION_SERVICE_MAIL_USERNAME: yarohsyk10@gmail.com
+CPP_NOTIFICATION_SERVICE_MAIL_PASSWORD: bayhdzxgivnblzhx
+CPP_NOTIFICATION_SERVICE_PORT:9030
+```

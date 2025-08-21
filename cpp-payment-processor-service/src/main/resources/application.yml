@@ -10,10 +10,6 @@ spring:
       retries: 5
       properties:
         enable.idempotence: true
-  data:
-    redis:
-      host: ${CPP_PAYMENT_PROCESSOR_SERVICE_REDIS_HOST}
-      port: ${CPP_PAYMENT_PROCESSOR_SERVICE_REDIS_PORT}
 server:
   port: ${CPP_PAYMENT_PROCESSOR_SERVICE_PORT}
   servlet:

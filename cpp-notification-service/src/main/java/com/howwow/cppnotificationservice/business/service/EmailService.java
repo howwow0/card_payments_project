@@ -1,6 +1,11 @@
 package com.howwow.cppnotificationservice.business.service;
 
 
+import com.howwow.event.PaymentEvent;
+
+import java.util.concurrent.CompletableFuture;
+
+
 public interface EmailService {
-    void sendEmail(String to, String subject, String body);
+    CompletableFuture<Void> sendEmail(PaymentEvent event);
 }

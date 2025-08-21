@@ -12,7 +12,6 @@ spring:
       group-id: payment-consumers-email
       enable-auto-commit: false
       auto-offset-reset: earliest
-      isolation-level: read_committed
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       bootstrap-servers: ${CPP_NOTIFICATION_SERVICE_KAFKA_BOOTSTRAP_SERVERS}
@@ -32,6 +31,7 @@ spring:
           starttls:
             enable: true
             required: true
+
 
 server:
   port: ${CPP_NOTIFICATION_SERVICE_PORT}

@@ -1,34 +1,23 @@
 package com.howwow.cpppaymentprocessorservice.business.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.howwow.cpppaymentprocessorservice.business.entity.PaymentEventEntity;
 import com.howwow.cpppaymentprocessorservice.business.mapper.PaymentProcessMapper;
+import com.howwow.cpppaymentprocessorservice.business.service.EventPublisherService;
 import com.howwow.cpppaymentprocessorservice.business.service.PaymentProcessService;
 import com.howwow.cpppaymentprocessorservice.rest.dto.request.PaymentProcessRequest;
 import com.howwow.cpppaymentprocessorservice.rest.dto.response.PaymentProcessResponse;
 import com.howwow.event.PaymentEvent;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.kafka.core.KafkaTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
-
-import static com.howwow.cpppaymentprocessorservice.config.KafkaTopicConfig.PAYMENTS_TOPIC;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentProcessServiceImpl implements PaymentProcessService {
 
-
     private final PaymentProcessMapper paymentProcessMapper;
-    private final RedisTemplate<String, PaymentEventEntity> redisTemplate;
-    private final ObjectMapper objectMapper;
-
+    private final EventPublisherService eventPublisherService;
     @Override
     public PaymentProcessResponse processPayment(PaymentProcessRequest request) {
         String status = Boolean.TRUE.equals(request.isApproved()) ? "SUCCESS" : "FAILED";
@@ -36,10 +25,8 @@ public class PaymentProcessServiceImpl implements PaymentProcessService {
                 "Транзакция завершена успешно: %s".formatted(request.reason()) :
                 request.reason();
 
-        PaymentEventEntity entity = paymentProcessMapper.asPaymentEventEntity(request);
-
-        redisTemplate.opsForStream()
-                .add("payment-events-stream", Map.of("event", entity));
+        PaymentEvent event = paymentProcessMapper.asPaymentEvent(request);
+        eventPublisherService.publish(event);
         return paymentProcessMapper.asPaymentProcessResponse(request, status, message);
     }
 }

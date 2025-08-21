@@ -17,29 +17,16 @@ public class EmailPaymentEventConsumer {
 
     @KafkaListener(topics = "payment-events", groupId = "payment-consumers-email")
     public void consume(PaymentEvent event, Acknowledgment ack) {
-        try {
-            String status = event.isApproved() ? "успешно" : "неуспешно";
-            String subject = "Статус вашей транзакции: " + status;
-            String body = String.format(
-                    """
-                            Здравствуйте!
-                            
-                            Ваш платеж с ID %s был обработан.
-                            Статус: %s
-                            Причина: %s
-                            
-                            Спасибо за использование нашего сервиса.""",
-                    event.transactionId(),
-                    status,
-                    event.reason()
-            );
+        var transactionId = event.transactionId();
 
-            emailService.sendEmail(event.email(), subject, body);
-
-            ack.acknowledge();
-            log.info("Письмо для транзакции {} успешно отправлено", event.transactionId());
-        } catch (Exception e) {
-            log.error("Ошибка обработки транзакции {}: {}", event.transactionId(), e.getMessage(), e);
-        }
+        emailService.sendEmail(event)
+                .thenRun(() -> {
+                    log.info("Письмо для транзакции {} успешно отправлено", transactionId);
+                    ack.acknowledge();
+                })
+                .exceptionally(ex -> {
+                    log.error("Ошибка отправки письма {}: {}", transactionId, ex.getMessage(), ex);
+                    return null;
+                });
     }
 }
