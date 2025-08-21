@@ -25,7 +25,7 @@ public class EmailPaymentEventConsumer {
                     ack.acknowledge();
                 })
                 .exceptionally(ex -> {
-                    log.error("Ошибка отправки письма {}: {}", transactionId, ex.getMessage(), ex);
+                    log.error("Ошибка отправки письма {}: {}", transactionId, ex.getMessage());
                     return null;
                 });
     }
