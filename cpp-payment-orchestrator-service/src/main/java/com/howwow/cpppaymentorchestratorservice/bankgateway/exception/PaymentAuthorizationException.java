@@ -1,14 +1,10 @@
 package com.howwow.cpppaymentorchestratorservice.bankgateway.exception;
 
-import lombok.Getter;
+import com.howwow.cpppaymentorchestratorservice.rest.exception.AbstractApiException;
+import org.springframework.http.HttpStatus;
 
-@Getter
-public class PaymentAuthorizationException extends RuntimeException {
-
-    private final String reason;
-
-    public PaymentAuthorizationException(String reason) {
-        super("Платеж не авторизован: " + reason);
-        this.reason = reason;
+public class PaymentAuthorizationException extends AbstractApiException {
+    public PaymentAuthorizationException(String message, HttpStatus httpStatus) {
+        super(httpStatus, message);
     }
 }

@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY settings.gradle .
 COPY build.gradle .
+COPY cpp-keys-starter ./cpp-keys-starter
+COPY cpp-card-decryption-starter ./cpp-card-decryption-starter
 COPY cpp-bank-gateway-service/build.gradle cpp-bank-gateway-service/
 COPY cpp-bank-gateway-service/src cpp-bank-gateway-service/src/
 

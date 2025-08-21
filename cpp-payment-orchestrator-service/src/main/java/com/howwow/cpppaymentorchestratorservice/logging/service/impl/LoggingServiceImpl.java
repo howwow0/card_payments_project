@@ -1,7 +1,8 @@
 package com.howwow.cpppaymentorchestratorservice.logging.service.impl;
 
 import com.howwow.cpppaymentorchestratorservice.logging.client.LoggingServiceClient;
-import com.howwow.cpppaymentorchestratorservice.logging.dto.LogDto;
+import com.howwow.cpppaymentorchestratorservice.logging.dto.request.CreateLogRequest;
+import com.howwow.cpppaymentorchestratorservice.logging.dto.response.CreateLogResponse;
 import com.howwow.cpppaymentorchestratorservice.logging.service.LoggingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,20 +16,20 @@ public class LoggingServiceImpl implements LoggingService {
 
     private final LoggingServiceClient loggingServiceClient;
 
-    @Async
     @Override
-    public void sendLog(LogDto logDto) {
+    @Async
+    public void sendLog(CreateLogRequest createLogRequest) {
         try {
-            loggingServiceClient.createLog(logDto);
+            CreateLogResponse response = loggingServiceClient.createLog(createLogRequest);
+            log.info("Лог успешно отправлен в сервис логирования: {}", response.service());
         } catch (feign.FeignException fe) {
-            log.warn("Feign ошибка при отправке лога ({}): статус={}, причина={}",
-                    logDto.service(),
+            log.warn("Не удалось отправить лог в {}: статус={}, причина={}",
+                    createLogRequest.service(),
                     fe.status(),
-                    fe.getMessage(),
-                    fe);
+                    fe.getMessage());
         } catch (Exception e) {
             log.error("Непредвиденная ошибка при отправке лога ({}): {}",
-                    logDto.service(),
+                    createLogRequest.service(),
                     e.getMessage(),
                     e);
         }

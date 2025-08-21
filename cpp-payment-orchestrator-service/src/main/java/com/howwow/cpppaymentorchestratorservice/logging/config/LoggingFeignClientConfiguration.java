@@ -1,14 +1,18 @@
 package com.howwow.cpppaymentorchestratorservice.logging.config;
 
+import feign.Logger;
 import feign.Request;
 import feign.Retryer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
-@Configuration
 public class LoggingFeignClientConfiguration {
+
+    @Bean
+    public Logger.Level loggingFeignLoggerLevel() {
+        return Logger.Level.BASIC;
+    }
 
     @Bean
     public Request.Options loggingOptions() {

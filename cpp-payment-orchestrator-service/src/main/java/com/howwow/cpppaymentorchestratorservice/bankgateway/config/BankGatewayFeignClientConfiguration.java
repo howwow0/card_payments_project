@@ -7,19 +7,17 @@ import feign.Request;
 import feign.RequestInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.concurrent.TimeUnit;
 
-@Configuration
 @Slf4j
 public class BankGatewayFeignClientConfiguration {
 
     @Bean
     public Logger.Level bankGatewayFeignLoggerLevel() {
-        return Logger.Level.BASIC;
+        return Logger.Level.FULL;
     }
 
     @Bean

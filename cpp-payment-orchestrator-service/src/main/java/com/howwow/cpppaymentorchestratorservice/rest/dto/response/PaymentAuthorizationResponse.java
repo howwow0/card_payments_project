@@ -1,6 +1,5 @@
 package com.howwow.cpppaymentorchestratorservice.rest.dto.response;
 
-import com.howwow.cpppaymentorchestratorservice.persistence.enums.PaymentStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.UUID;
@@ -26,7 +25,7 @@ public record PaymentAuthorizationResponse(
                 example = "APPROVED",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
-        PaymentStatus status,
+        String status,
 
         @Schema(
                 description = "Дополнительное сообщение о статусе",

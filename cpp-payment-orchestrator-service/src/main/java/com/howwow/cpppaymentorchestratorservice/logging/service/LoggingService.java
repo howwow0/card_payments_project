@@ -1,7 +1,7 @@
 package com.howwow.cpppaymentorchestratorservice.logging.service;
 
-import com.howwow.cpppaymentorchestratorservice.logging.dto.LogDto;
+import com.howwow.cpppaymentorchestratorservice.logging.dto.request.CreateLogRequest;
 
 public interface LoggingService {
-    void sendLog(LogDto logDto);
+    void sendLog(CreateLogRequest createLogRequest);
 }

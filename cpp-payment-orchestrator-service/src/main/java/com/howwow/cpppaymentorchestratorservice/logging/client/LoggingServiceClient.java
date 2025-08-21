@@ -1,7 +1,8 @@
 package com.howwow.cpppaymentorchestratorservice.logging.client;
 
 import com.howwow.cpppaymentorchestratorservice.logging.config.LoggingFeignClientConfiguration;
-import com.howwow.cpppaymentorchestratorservice.logging.dto.LogDto;
+import com.howwow.cpppaymentorchestratorservice.logging.dto.request.CreateLogRequest;
+import com.howwow.cpppaymentorchestratorservice.logging.dto.response.CreateLogResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,5 +15,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface LoggingServiceClient {
 
     @PostMapping("api/v1/logging/log")
-    void createLog(@RequestBody LogDto logDto);
+    CreateLogResponse createLog(@RequestBody CreateLogRequest logRequest);
 }

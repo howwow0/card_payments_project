@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("payment")
 @RequiredArgsConstructor
-@Tag(name = "PaymentProcess", description = "Эндпоинты обработки платежей")
+@Tag(name = "Платеж", description = "Эндпоинт обработки платежа")
 public class PaymentProcessController {
     private final PaymentProcessService paymentProcessService;
 
@@ -40,7 +40,7 @@ public class PaymentProcessController {
                     content = @Content(schema = @Schema(implementation = AbstractApiException.class)))
     })
     @PostMapping("/process")
-    public ResponseEntity<PaymentProcessResponse> authorize(@RequestBody @Valid PaymentProcessRequest paymentProcessRequest) {
+    public ResponseEntity<PaymentProcessResponse> process(@RequestBody @Valid PaymentProcessRequest paymentProcessRequest) {
         return ResponseEntity.ok(paymentProcessService.processPayment(paymentProcessRequest));
     }
 }

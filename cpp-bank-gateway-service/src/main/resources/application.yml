@@ -15,6 +15,14 @@ springdoc:
     tags-sorter: alpha
     operations-sorter: method
 
+keydb:
+  datasource:
+    url: ${KEY_DB_URL}
+    username: ${KEY_DB_USERNAME}
+    password: ${KEY_DB_PASSWORD}
+    card-name: ${CARD_NAME_KEY}
+    jwt-name: ${JWT_NAME_KEY}
+
 logging:
   level:
     org.springframework: INFO

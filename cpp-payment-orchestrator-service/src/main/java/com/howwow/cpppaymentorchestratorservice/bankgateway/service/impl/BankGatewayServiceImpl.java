@@ -3,15 +3,14 @@ package com.howwow.cpppaymentorchestratorservice.bankgateway.service.impl;
 import com.howwow.cpppaymentorchestratorservice.bankgateway.client.BankGatewayClient;
 import com.howwow.cpppaymentorchestratorservice.bankgateway.dto.request.PaymentAuthorizationGatewayRequest;
 import com.howwow.cpppaymentorchestratorservice.bankgateway.dto.response.PaymentAuthorizationGatewayResponse;
+import com.howwow.cpppaymentorchestratorservice.bankgateway.exception.PaymentAuthorizationException;
 import com.howwow.cpppaymentorchestratorservice.bankgateway.service.BankGatewayService;
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class BankGatewayServiceImpl implements BankGatewayService {
     private final BankGatewayClient bankGatewayClient;
 
@@ -19,20 +18,11 @@ public class BankGatewayServiceImpl implements BankGatewayService {
     public PaymentAuthorizationGatewayResponse authorize(PaymentAuthorizationGatewayRequest request) {
         try {
             return bankGatewayClient.authorizePayment(request);
-        } catch (FeignException fe) {
-            int status = fe.status();
-
-            if (status == 403) {
-                return new PaymentAuthorizationGatewayResponse(null, false, "Нет доступа, попробуйте ещё раз");
-            } else if (status >= 500 && status < 600) {
-                return new PaymentAuthorizationGatewayResponse(null, false, "Сервис банка недоступен, попробуйте позже");
-            } else {
-                return new PaymentAuthorizationGatewayResponse(null, false, "Произошла ошибка, попробуйте позже");
-            }
-
         } catch (Exception e) {
-            log.error("Неизвестная ошибка: {}", e.getMessage(), e);
-            return new PaymentAuthorizationGatewayResponse(null, false, "Произошла ошибка, попробуйте позже");
+            throw new PaymentAuthorizationException(
+                    "Ошибка банковского шлюза: " + e.getMessage(),
+                    HttpStatus.BAD_GATEWAY
+            );
         }
     }
 }
